@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Najoom Al-Ma'rifa — نجوم المعرفة</title>
+<style>
+:root{
+  --bg1:#151038; --bg2:#0a0620; --ac:#7c5cff; --ac2:#29e0d2; --gold:#ffc94d; --rose:#ff5e8a;
+  --card:rgba(255,255,255,.07); --cardB:rgba(255,255,255,.14); --txt:#f4f2ff; --dim:#b9b3e0;
+  --ok:#3ddc84; --bad:#ff5470; --rad:22px;
+}
+body[data-theme="sunset"]{--bg1:#2d1030;--bg2:#160718;--ac:#ff7a4d;--ac2:#ffc94d}
+body[data-theme="ocean"]{--bg1:#062a3f;--bg2:#021420;--ac:#2196f3;--ac2:#29e0d2}
+body[data-theme="forest"]{--bg1:#0d2b1e;--bg2:#051710;--ac:#3ddc84;--ac2:#d4ff5e}
+body[data-theme="gold"]{--bg1:#2b1d05;--bg2:#160e02;--ac:#ffc94d;--ac2:#ff9d4d}
+body[data-theme="space"]{--bg1:#050510;--bg2:#000002;--ac:#8a7cff;--ac2:#00e5ff}
+body[data-theme="neon"]{--bg1:#0f0221;--bg2:#05000e;--ac:#ff2ee6;--ac2:#00ffd5}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:"Segoe UI","Noto Kufi Arabic","Noto Sans Arabic",Tahoma,sans-serif;
+  background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  background:radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.26), transparent 60%),
+             radial-gradient(1000px 700px at -10% 110%, rgba(41,224,210,.18), transparent 60%),
+             linear-gradient(160deg,var(--bg1),var(--bg2));
+  color:var(--txt); overflow-x:hidden; min-height:100vh; min-height:100dvh;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(1.5px 1.5px at 12% 22%,#fff8,transparent),radial-gradient(1px 1px at 68% 12%,#fff6,transparent),
+  radial-gradient(2px 2px at 84% 38%,#fff5,transparent),radial-gradient(1px 1px at 32% 72%,#fff5,transparent),
+  radial-gradient(1.5px 1.5px at 55% 88%,#fff7,transparent),radial-gradient(1px 1px at 8% 55%,#fff4,transparent),
+  radial-gradient(1.5px 1.5px at 92% 78%,#fff6,transparent),radial-gradient(1px 1px at 45% 42%,#fff4,transparent);
+  animation:twinkle 6s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.5}to{opacity:1}}
+#app{position:relative;z-index:1;max-width:560px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;flex:1;padding:14px;animation:screenIn .35s ease}
+.screen.active{display:flex}
+@keyframes screenIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.glass{background:var(--card);border:1px solid var(--cardB);border-radius:var(--rad);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+button{font-family:inherit;cursor:pointer;border:none;color:inherit;background:none}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px 20px;border-radius:18px;
+  font-size:17px;font-weight:800;background:var(--card);border:1px solid var(--cardB);transition:transform .12s,filter .2s;position:relative;overflow:hidden}
+.btn:active{transform:scale(.96)}
+.btn-primary{background:var(--ac);background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 8px 26px rgba(0,0,0,.35),0 4px 18px var(--ac)}
+.btn-green{background:linear-gradient(135deg,#22c55e,#0ea5a0);color:#fff;box-shadow:0 8px 26px rgba(34,197,94,.35)}
+.btn-rose{background:linear-gradient(135deg,var(--rose),#c026d3);color:#fff}
+.btn-gold{background:linear-gradient(135deg,var(--gold),#ff8a3d);color:#3a2200}
+.icon-btn{width:46px;height:46px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:21px;
+  background:var(--card);border:1px solid var(--cardB);backdrop-filter:blur(10px);transition:transform .12s}
+.icon-btn:active{transform:scale(.9) rotate(-6deg)}
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.spacer{flex:1}
+.coinchip{display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:16px;background:var(--card);border:1px solid var(--cardB);font-weight:800}
+h1.logo{font-size:30px;font-weight:900;letter-spacing:.5px;text-align:center;
+  background:linear-gradient(90deg,var(--ac2),var(--ac),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 18px var(--ac))}
+.mode-card{padding:22px;border-radius:26px;text-align:start;position:relative;overflow:hidden}
+.mode-card .big{font-size:21px;font-weight:900;display:flex;align-items:center;gap:12px}
+.mode-card .sub{color:var(--dim);font-size:13.5px;margin-top:7px;line-height:1.6}
+.mode-card::after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;filter:blur(40px);opacity:.5;top:-40px;inset-inline-end:-40px;background:var(--ac2)}
+.footer{margin-top:auto;text-align:center;padding:18px 0 8px;color:var(--gold);font-weight:800;font-size:14px;
+  text-shadow:0 0 14px var(--gold);letter-spacing:.4px}
+.modal-back{position:fixed;inset:0;background:rgba(5,2,18,.72);backdrop-filter:blur(6px);z-index:50;display:none;align-items:center;justify-content:center;padding:18px}
+.modal-back.show{display:flex;animation:screenIn .25s ease}
+.modal{width:100%;max-width:440px;max-height:86dvh;overflow-y:auto;padding:22px;border-radius:26px}
+.modal h3{font-size:20px;font-weight:900;margin-bottom:12px}
+.opt{display:block;width:100%;padding:16px 18px;margin:10px 0;font-size:16.5px;font-weight:700;color:var(--txt);
+  background:linear-gradient(135deg,rgba(124,92,255,.38),rgba(41,224,210,.20));border:1.5px solid rgba(124,92,255,.55);box-shadow:0 4px 18px rgba(124,92,255,.25);
+  transition:transform .1s,filter .15s;text-align:start;line-height:1.5;min-height:56px}
+.opt:active{transform:scale(.97)}
+body[data-shape="crystal"] .opt{clip-path:polygon(6% 0,94% 0,100% 50%,94% 100%,6% 100%,0 50%);padding-inline:26px;border:none;
+  background:linear-gradient(135deg,rgba(124,92,255,.42),rgba(41,224,210,.24))}
+body[data-shape="neon"] .opt{border-radius:999px;border:2px solid var(--ac2);box-shadow:0 0 16px var(--ac2),inset 0 0 12px var(--ac2)}
+body[data-shape="wood"] .opt{border-radius:14px;border:1px solid #7a4a22;background:linear-gradient(135deg,#8a5a2b,#5f3a17);box-shadow:inset 0 2px 0 rgba(255,255,255,.15)}
+body[data-shape="metal"] .opt{border-radius:10px;border:1px solid #9aa4b8;background:linear-gradient(160deg,#cdd5e4,#7e8aa3 55%,#aab4c8);color:#141a26;text-shadow:none}
+.opt.ok{background:linear-gradient(135deg,#22c55e,#0d9668)!important;color:#fff!important;border-color:#22c55e!important;animation:popOk .4s}
+.opt.bad{background:linear-gradient(135deg,#ef4444,#b91c1c)!important;color:#fff!important;border-color:#ef4444!important;animation:shake .4s}
+@keyframes popOk{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.qcard{padding:24px;border-radius:26px;margin-bottom:14px;position:relative}
+.qcard .qtext{font-size:19px;font-weight:800;line-height:1.8}
+.dots{display:flex;gap:6px;justify-content:center;margin:12px 0}
+.dot{width:26px;height:8px;border-radius:6px;background:rgba(255,255,255,.14);transition:.3s}
+.dot.on{background:linear-gradient(90deg,var(--ac2),var(--ac))}
+.dot.cur{background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse 1s infinite}
+@keyframes pulse{50%{transform:scale(1.25)}}
+.timerbar{height:7px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin-bottom:12px}
+.timerbar>div{height:100%;background:linear-gradient(90deg,var(--ac2),var(--ac));border-radius:6px;transition:width .3s linear}
+.timerbar.low>div{background:var(--rose)}
+.streakchip{position:absolute;top:-14px;inset-inline-end:14px;background:linear-gradient(135deg,var(--gold),#ff8a3d);color:#3a2200;
+  padding:7px 14px;border-radius:14px;font-weight:900;font-size:13px;box-shadow:0 4px 16px rgba(255,170,60,.5)}
+.node{width:58px;height:64px;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  clip-path:polygon(25% 3%,75% 3%,98% 50%,75% 97%,25% 97%,2% 50%);font-weight:900;font-size:16px;
+  background:var(--ac);background:linear-gradient(160deg,var(--ac),var(--ac2));color:#fff;border:none}
+.node.lock{background:rgba(255,255,255,.09);color:rgba(255,255,255,.4)}
+.node:not(.lock):nth-child(4n+1){background:linear-gradient(160deg,#7c5cff,#29e0d2)}
+.node:not(.lock):nth-child(4n+2){background:linear-gradient(160deg,#ff5e8a,#ff9d4d)}
+.node:not(.lock):nth-child(4n+3){background:linear-gradient(160deg,#29e0d2,#3ddc84)}
+.node:not(.lock):nth-child(4n){background:linear-gradient(160deg,#ffc94d,#ff6a3d)}
+.node.done{background:linear-gradient(160deg,#22c55e,#0d9668)}
+.node.boss{background:linear-gradient(160deg,var(--gold),#ff6a3d);width:66px;height:72px;font-size:18px}
+.node .st{position:absolute;bottom:6px;font-size:8px;letter-spacing:-1px;color:#fff}
+.mapzone{display:flex;flex-direction:column;align-items:center;gap:16px;padding:26px 10px;border-radius:26px;position:relative;overflow:hidden}
+.zone-head{display:flex;align-items:center;gap:10px;width:100%}
+.planet{width:52px;height:52px;border-radius:50%;flex-shrink:0;position:relative;
+  background:radial-gradient(circle at 32% 30%, var(--ac2), var(--ac) 60%, #201040);
+  box-shadow:0 0 22px var(--ac)}
+.planet::after{content:"";position:absolute;inset-inline-start:-8px;top:38%;width:68px;height:12px;border-radius:50%;
+  background:var(--gold);transform:rotate(-16deg);opacity:.85}
+.lvlrow{display:flex;align-items:center;gap:14px;width:100%;justify-content:center}
+.lvlrow:nth-child(odd){transform:translateX(-14px)}
+.lvlrow:nth-child(even){transform:translateX(14px)}
+[dir="rtl"] .lvlrow:nth-child(odd){transform:translateX(14px)}
+[dir="rtl"] .lvlrow:nth-child(even){transform:translateX(-14px)}
+.zone-nav{display:flex;gap:8px;align-items:center;justify-content:center;margin-bottom:6px;flex-wrap:wrap}
+.zpill{padding:8px 13px;border-radius:14px;background:var(--card);border:1px solid var(--cardB);font-weight:800;font-size:13px}
+.zpill.cur{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff}
+#mascotPop{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(5,2,18,.6);backdrop-filter:blur(4px)}
+#mascotPop.show{display:flex}
+.mascot-box{text-align:center;padding:30px 26px;border-radius:30px;max-width:340px;animation:mascotIn .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes mascotIn{from{transform:scale(.3) rotate(-14deg);opacity:0}to{transform:none;opacity:1}}
+.mascot-svg{width:130px;height:130px;animation:mascotDance 1s ease-in-out infinite}
+@keyframes mascotDance{0%,100%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(6deg) translateY(-10px)}}
+.mascot-say{font-size:18px;font-weight:900;line-height:1.7;margin-top:10px;color:var(--gold);text-shadow:0 0 12px rgba(255,200,80,.4)}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:rgba(20,12,50,.92);border:1px solid var(--cardB);
+  padding:12px 22px;border-radius:16px;font-weight:800;z-index:99;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;bottom:36px}
+.store-item{display:flex;align-items:center;gap:14px;padding:14px;border-radius:20px;margin-bottom:10px}
+.store-ic{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
+.store-info{flex:1}.store-info b{font-size:15.5px}.store-info span{display:block;color:var(--dim);font-size:12.5px;margin-top:3px}
+.buyb{padding:10px 16px;border-radius:14px;font-weight:900;font-size:13.5px;background:linear-gradient(135deg,var(--gold),#ff8a3d);color:#3a2200;white-space:nowrap}
+.buyb.owned{background:var(--card);color:var(--dim);border:1px solid var(--cardB)}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 4px;border-bottom:1px solid rgba(255,255,255,.07)}
+.set-row label{font-weight:800;font-size:15px}
+select,input[type=text],input[type=number],textarea{width:100%;padding:13px 15px;border-radius:15px;border:1px solid var(--cardB);
+  background:rgba(255,255,255,.08);color:var(--txt);font-family:inherit;font-size:15.5px;outline:none}
+select option{background:#1c1440;color:#fff}
+.switch{width:52px;height:29px;border-radius:20px;background:rgba(255,255,255,.15);position:relative;transition:.25s;flex-shrink:0}
+.switch.on{background:var(--ok)}
+.switch::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:23px;height:23px;border-radius:50%;background:#fff;transition:.25s}
+.switch.on::after{transform:translateX(23px)}
+[dir="rtl"] .switch.on::after{transform:translateX(-23px)}
+.theme-dots{display:flex;gap:8px;flex-wrap:wrap}
+.tdot{width:38px;height:38px;border-radius:13px;border:2.5px solid transparent;position:relative;font-size:17px;display:flex;align-items:center;justify-content:center}
+.tdot.cur{border-color:#fff}
+.tdot.lock{opacity:.35}
+.shape-dots{display:flex;gap:8px;flex-wrap:wrap}
+.sdot{padding:9px 14px;border-radius:13px;border:2px solid transparent;background:var(--card);font-weight:800;font-size:13px}
+.sdot.cur{border-color:#fff}
+.friend-item{display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:18px;margin-bottom:9px}
+.avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff;flex-shrink:0}
+.video-wrap{position:relative;border-radius:22px;overflow:hidden;background:#000;aspect-ratio:3/4;max-height:52dvh;margin:10px 0}
+.video-wrap video,.video-wrap img{width:100%;height:100%;object-fit:cover}
+.stars-big{font-size:44px;text-align:center;letter-spacing:6px;animation:starPop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes starPop{from{transform:scale(0) rotate(-90deg)}to{transform:none}}
+.score-line{display:flex;justify-content:space-between;padding:13px 6px;font-weight:800;font-size:15.5px;border-bottom:1px solid rgba(255,255,255,.08)}
+.codebox{font-family:monospace;font-size:11px;word-break:break-all;background:rgba(0,0,0,.3);padding:12px;border-radius:14px;max-height:110px;overflow-y:auto;line-height:1.5;color:var(--ac2)}
+.center{text-align:center}
+.small{font-size:13px;color:var(--dim)}
+.privacy-body{line-height:2;font-size:15px;color:var(--dim)}
+.fx{position:fixed;pointer-events:none;z-index:95;font-size:22px;animation:fxUp 1s ease-out forwards}
+@keyframes fxUp{from{transform:translateY(0) scale(1);opacity:1}to{transform:translateY(-90px) scale(1.5);opacity:0}}
+.pw-row{display:flex;gap:8px;margin:10px 0}
+.pw-btn{flex:1;padding:11px;border-radius:15px;background:var(--card);border:1px solid var(--cardB);font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px}
+.pw-btn:disabled{opacity:.35}
+.opponent-bar{height:9px;border-radius:6px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:6px}
+.opponent-bar>div{height:100%;background:var(--rose);transition:width .3s}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+/* ===== extra visual polish ===== */
+.orb{position:fixed;border-radius:50%;filter:blur(70px);opacity:.35;pointer-events:none;z-index:0;animation:orbFloat 14s ease-in-out infinite alternate}
+.orb.a{width:280px;height:280px;background:var(--ac);top:-80px;inset-inline-start:-60px}
+.orb.b{width:220px;height:220px;background:var(--ac2);bottom:-60px;inset-inline-end:-50px;animation-delay:-7s}
+.orb.c{width:160px;height:160px;background:var(--gold);top:45%;inset-inline-end:8%;opacity:.18;animation-delay:-3s}
+@keyframes orbFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(30px,-40px) scale(1.15)}}
+.btn-primary::before,.btn-gold::before{content:"";position:absolute;top:0;inset-inline-start:-80%;width:50%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);animation:shine 3.2s ease-in-out infinite}
+@keyframes shine{0%,60%{inset-inline-start:-80%}100%{inset-inline-start:160%}}
+.node{transition:transform .15s}
+.node:not(.lock):hover{transform:scale(1.12)}
+.node:not(.lock){animation:nodeIn .4s backwards}
+@keyframes nodeIn{from{opacity:0;transform:scale(.4)}to{opacity:1}}
+.coinchip{animation:coinGlow 2.5s ease-in-out infinite}
+@keyframes coinGlow{50%{box-shadow:0 0 14px var(--gold)}}
+.confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:99;pointer-events:none;animation:confFall linear forwards}
+@keyframes confFall{to{transform:translateY(105vh) rotate(720deg);opacity:.6}}
+.stars-big{font-size:44px;letter-spacing:6px;animation:starPop .6s backwards}
+.stars-big span{display:inline-block;animation:starPop .6s backwards}
+.stars-big span:nth-child(2){animation-delay:.15s}
+.stars-big span:nth-child(3){animation-delay:.3s}
+@keyframes starPop{from{transform:scale(0) rotate(-90deg)}60%{transform:scale(1.3)}to{transform:scale(1)}}
+
+/* ===== winding path map ===== */
+.pathwrap{position:relative;margin:6px 0 0;width:100%}
+.pathwrap svg.pathline{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.pnode{position:absolute;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:16px;color:#fff;transform:translate(-50%,-50%);z-index:1;border:none;cursor:pointer;
+  background:linear-gradient(160deg,var(--ac),var(--ac2));box-shadow:0 6px 18px rgba(0,0,0,.4),0 0 12px var(--ac);
+  transition:transform .15s}
+.pnode:active{transform:translate(-50%,-50%) scale(.92)}
+.pnode.done{background:linear-gradient(160deg,#22c55e,#0d9668);box-shadow:0 6px 18px rgba(34,197,94,.4)}
+.pnode.lock{background:rgba(255,255,255,.10);color:rgba(255,255,255,.45);box-shadow:none;cursor:default}
+.pnode.boss{width:66px;height:66px;font-size:22px;background:linear-gradient(160deg,var(--gold),#ff6a3d);box-shadow:0 6px 20px rgba(255,150,60,.5)}
+.pnode.boss.lock{background:rgba(255,255,255,.10);box-shadow:none;color:rgba(255,255,255,.45)}
+.pnode.cur{width:74px;height:74px;font-size:26px;background:linear-gradient(160deg,var(--gold),#ff8a3d);
+  box-shadow:0 0 0 6px rgba(255,201,77,.25),0 0 26px var(--gold);animation:startPulse 1.4s ease-in-out infinite}
+.pnode.cur::after{content:"";position:absolute;inset:-14px;border-radius:50%;border:2px dashed var(--gold);opacity:.6;animation:spin 8s linear infinite}
+@keyframes startPulse{50%{transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pnode .pst{position:absolute;bottom:-4px;font-size:9px;letter-spacing:-1px;color:#ffe9a8;text-shadow:0 1px 3px #000}
+.pnode .plbl{position:absolute;top:-22px;font-size:11px;font-weight:900;color:var(--gold);white-space:nowrap;text-shadow:0 1px 4px #000}
+.startbar{position:sticky;top:0;z-index:5;margin-bottom:8px}
+</style>
+<meta name="ai-disclosure" content="ai-autonomous" ai-model="GLM-5.3-Flash" ai-provider="Thaura"><meta name="generator" content="Thaura (GLM-5.3-Flash)"></head>
+<body data-orbs data-theme="cosmic" data-shape="crystal">
+<div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+<div id="app">
+
+<!-- Privacy -->
+<div class="screen active" id="scr-privacy">
+  <div style="margin:auto 0;max-width:460px;width:100%">
+    <div class="glass" style="padding:26px;text-align:center">
+      <div style="font-size:52px">🛡️</div>
+      <h2 style="margin:10px 0" data-i="privacyT"></h2>
+      <p class="privacy-body" data-i="privacyB"></p>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:16px">
+      <button class="btn btn-green" id="btnAgree" data-i="agree"></button>
+      <button class="btn btn-rose" id="btnDisagree" data-i="disagree"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Name -->
+<div class="screen" id="scr-name">
+  <div style="margin:auto 0;max-width:420px;width:100%" class="center">
+    <div class="glass" style="padding:30px">
+      <div style="font-size:56px">🌟</div>
+      <h2 data-i="nameT" style="margin:12px 0 18px"></h2>
+      <input type="text" id="nameInput" maxlength="20" data-i-ph="namePh">
+      <button class="btn btn-primary" id="btnStart" style="margin-top:16px" data-i="startB"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Home -->
+<div class="screen" id="scr-home">
+  <div class="topbar">
+    <button class="icon-btn" id="btnSettings" data-snd="mech" title="Settings">⚙️</button>
+    <div class="spacer"></div>
+    <button class="icon-btn" id="btnStore" data-snd="coin" title="Store">🛍️</button>
+    <button class="icon-btn" id="btnCamera" data-snd="cam" title="Camera">📷</button>
+    <div class="coinchip">🪙 <span id="coinsHome">0</span></div>
+  </div>
+  <h1 class="logo" data-i="appName"></h1>
+  <p class="center small" style="margin:6px 0 18px" data-i="tagline"></p>
+  <div id="welcomeLine" class="center" style="font-weight:800;margin-bottom:14px;color:var(--ac2)"></div>
+  <button class="btn btn-primary mode-card" id="btnAlone" style="margin-bottom:14px" data-snd="wave">
+    <div><div class="big">📚 <span data-i="studyAlone"></span></div><div class="sub" data-i="studyAloneSub"></div></div>
+  </button>
+  <button class="btn mode-card" id="btnMap" data-snd="mech" style="margin-bottom:14px;border-color:var(--gold)">
+    <div><div class="big">🗺️ <span data-i="mapT"></span></div><div class="sub" data-i="mapSub"></div></div>
+  </button>
+  <button class="btn mode-card" id="btnFriend" data-snd="wave" style="border-color:var(--ac2)">
+    <div><div class="big">👥 <span data-i="studyFriend"></span></div><div class="sub" data-i="studyFriendSub"></div></div>
+  </button>
+  <div class="glass" style="margin-top:16px;padding:6px 14px 14px">
+    <div style="display:flex;align-items:center;gap:8px;padding:12px 2px 6px;font-weight:900">🧑‍🤝‍🧑 <span data-i="friends"></span></div>
+    <div id="friendsList"></div>
+  </div>
+  <div class="footer">✦ <span data-i="dev"></span> ✦<div style="font-size:11px;opacity:.7;margin-top:2px">v2.1</div></div>
+</div>
+
+<!-- Map -->
+<div class="screen" id="scr-map">
+  <div class="topbar">
+    <button class="icon-btn" id="btnMapBack">🏠</button>
+    <div class="spacer"></div>
+    <div class="coinchip">🪙 <span id="coinsMap">0</span></div>
+  </div>
+  <div class="zone-nav" id="zoneNav"></div>
+  <div class="glass mapzone" id="zoneBox"></div>
+  <div class="center small" style="margin-top:12px" id="mapInfo"></div>
+</div>
+
+<!-- Quiz -->
+<div class="screen" id="scr-quiz">
+  <div class="topbar">
+    <button class="icon-btn" id="btnQuitQuiz">✖</button>
+    <div class="spacer"></div>
+    <div class="streakchip" id="streakChip" style="display:none">🔥 <span id="streakNum">0</span></div>
+    <div class="coinchip" id="oppChip" style="display:none">⚔️ <span id="oppName"></span></div>
+  </div>
+  <div class="dots" id="qDots"></div>
+  <div class="timerbar" id="timerBar"><div style="width:100%"></div></div>
+  <div class="glass qcard" id="qCard">
+    <div class="qtext" id="qText"></div>
+  </div>
+  <div class="pw-row" id="pwRow">
+    <button class="pw-btn" id="pwFifty">✂️ <span id="pwFiftyN">0</span></button>
+    <button class="pw-btn" id="pwSkip">⏭️ <span id="pwSkipN">0</span></button>
+  </div>
+  <div id="optsBox"></div>
+  <div id="oppProgress" style="display:none;margin-top:10px">
+    <div class="small" style="font-weight:800">⚔️ <span id="oppScoreT">0</span></div>
+    <div class="opponent-bar"><div id="oppBar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- Result -->
+<div class="screen" id="scr-result">
+  <div style="margin:auto 0;max-width:420px;width:100%" class="center">
+    <div class="glass" style="padding:28px">
+      <div class="stars-big" id="resStars"></div>
+      <h2 id="resTitle" style="margin:12px 0"></h2>
+      <div class="score-line"><span data-i="yourScore"></span><b id="resYou">0</b></div>
+      <div class="score-line" id="resOppLine" style="display:none"><span id="resOppName"></span><b id="resOpp"></b></div>
+      <div class="score-line"><span data-i="coinsEarned"></span><b id="resCoins" style="color:var(--gold)">+0 🪙</b></div>
+      <div class="score-line" id="resBestLine"><span data-i="bestStreakT"></span><b id="resBest">0</b></div>
+      <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+        <button class="btn btn-primary" id="btnResNext" style="flex:1;min-width:120px" data-i="nextLevel"></button>
+        <button class="btn" id="btnResReplay" style="flex:1;min-width:120px" data-i="replay"></button>
+        <button class="btn" id="btnResHome" style="flex:1;min-width:120px" data-i="home"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Friend room -->
+<div class="screen" id="scr-friend">
+  <div class="topbar"><button class="icon-btn" id="btnFriendBack">🏠</button><div class="spacer"></div></div>
+  <div class="glass" style="padding:20px;margin-bottom:14px">
+    <h3 data-i="createRoom" style="margin-bottom:8px"></h3>
+    <p class="small" data-i="roomReady" style="margin-bottom:10px"></p>
+    <div class="codebox" id="hostCode"></div>
+    <button class="btn" id="btnCopyCode" style="margin-top:10px" data-i="copyB"></button>
+  </div>
+  <div class="glass" style="padding:20px;margin-bottom:14px">
+    <h3 data-i="joinRoom" style="margin-bottom:8px"></h3>
+    <textarea id="pasteCode" rows="3" data-i-ph="pasteHere" style="font-size:11px;font-family:monospace"></textarea>
+    <button class="btn btn-green" id="btnJoin" style="margin-top:10px" data-i="connectB"></button>
+    <div id="joinReply" style="display:none;margin-top:10px">
+      <p class="small" data-i="sendBack"></p>
+      <div class="codebox" id="replyCode"></div>
+      <button class="btn" id="btnCopyReply" style="margin-top:8px" data-i="copyB"></button>
+    </div>
+  </div>
+  <div class="glass" style="padding:20px">
+    <div id="connStatus" class="center" style="font-weight:800;color:var(--dim)">🔵 <span data-i="waiting"></span></div>
+    <button class="btn btn-primary" id="btnStartDuel" style="margin-top:12px" disabled data-i="startB2"></button>
+  </div>
+</div>
+
+<!-- Store -->
+<div class="screen" id="scr-store">
+  <div class="topbar"><button class="icon-btn" id="btnStoreBack">🏠</button><div class="spacer"></div>
+  <div class="coinchip">🪙 <span id="coinsStore">0</span></div></div>
+  <h2 class="center" data-i="storeT" style="margin-bottom:14px"></h2>
+  <div id="storeList"></div>
+</div>
+
+<!-- Settings -->
+<div class="screen" id="scr-settings">
+  <div class="topbar"><button class="icon-btn" id="btnSetBack">🏠</button><div class="spacer"></div></div>
+  <h2 class="center" data-i="settings" style="margin-bottom:6px"></h2>
+  <div class="glass" style="padding:18px">
+    <div class="set-row"><label data-i="langT"></label>
+      <select id="selLang" style="width:150px"></select></div>
+    <div class="set-row" style="flex-direction:column;align-items:stretch"><label data-i="themeT" style="margin-bottom:10px"></label>
+      <div class="theme-dots" id="themeDots"></div></div>
+    <div class="set-row" style="flex-direction:column;align-items:stretch"><label data-i="shapeT" style="margin-bottom:10px"></label>
+      <div class="shape-dots" id="shapeDots"></div></div>
+    <div class="set-row"><label data-i="soundT"></label><div class="switch on" id="swSound"></div></div>
+    <div class="set-row"><label data-i="timerT"></label><div class="switch on" id="swTimer"></div></div>
+    <div class="set-row"><label data-i="voiceT"></label><div class="switch on" id="swVoice"></div></div>
+    <div class="set-row"><label data-i="remindT"></label><div class="switch on" id="swRemind"></div></div>
+    <button class="btn btn-rose" id="btnReset" style="margin-top:18px" data-i="resetB"></button>
+    <p class="center small" style="margin-top:14px" data-i="dev"></p>
+    <p class="center small" style="color:var(--ac2);font-weight:800">✦ v2.1 ✦</p>
+  </div>
+</div>
+
+<!-- Camera -->
+<div class="screen" id="scr-camera">
+  <div class="topbar"><button class="icon-btn" id="btnCamBack">🏠</button><div class="spacer"></div></div>
+  <h2 class="center" data-i="camera" style="margin-bottom:4px"></h2>
+  <p class="center small" data-i="camSub"></p>
+  <div class="video-wrap" id="videoWrap">
+    <video id="camVideo" autoplay playsinline muted></video>
+    <img id="camShot" style="display:none">
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn btn-primary" id="btnShot" data-i="captureB"></button>
+    <button class="btn" id="btnFlip" style="max-width:70px">🔄</button>
+  </div>
+  <div id="builderBox" style="display:none;margin-top:14px" class="glass">
+    <div style="padding:16px">
+      <h3 data-i="addQ"></h3>
+      <input type="text" id="cqText" data-i-ph="qText" style="margin:8px 0">
+      <input type="text" id="cqO1" data-i-ph="opt1" style="margin:6px 0">
+      <input type="text" id="cqO2" data-i-ph="opt2" style="margin:6px 0">
+      <input type="text" id="cqO3" data-i-ph="opt3" style="margin:6px 0">
+      <input type="text" id="cqO4" data-i-ph="opt4" style="margin:6px 0">
+      <label class="small" data-i="correctOpt" style="display:block;margin-top:6px"></label>
+      <select id="cqCorrect"><option value="0">1</option><option value="1">2</option><option value="2">3</option><option value="3">4</option></select>
+      <button class="btn btn-green" id="btnSaveCQ" style="margin-top:10px" data-i="saveQ"></button>
+    </div>
+  </div>
+  <div class="glass" style="margin-top:14px;padding:6px 14px 14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 2px 6px;font-weight:900">
+      <span>📝 <span data-i="myQs"></span></span>
+      <button class="btn btn-gold" id="btnPlayCustom" style="width:auto;padding:9px 16px;font-size:14px" data-i="playMyQs"></button>
+    </div>
+    <div id="customList"></div>
+  </div>
+</div>
+
+<!-- Mascot popup -->
+<div id="mascotPop">
+  <div class="glass mascot-box">
+    <svg class="mascot-svg" viewBox="0 0 120 120">
+      <g>
+        <path d="M60 8 L72 40 L106 42 L79 63 L88 97 L60 78 L32 97 L41 63 L14 42 L48 40 Z" fill="url(#gstar)" stroke="#fff3" stroke-width="2"/>
+        <circle cx="48" cy="52" r="9" fill="#fff"/><circle cx="72" cy="52" r="9" fill="#fff"/>
+        <circle cx="50" cy="54" r="4" fill="#1c1440"/><circle cx="70" cy="54" r="4" fill="#1c1440"/>
+        <circle cx="51.5" cy="52.5" r="1.5" fill="#fff"/><circle cx="71.5" cy="52.5" r="1.5" fill="#fff"/>
+        <path d="M50 68 Q60 78 70 68" stroke="#1c1440" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        <circle cx="40" cy="64" r="4" fill="#ff5e8a" opacity=".55"/><circle cx="80" cy="64" r="4" fill="#ff5e8a" opacity=".55"/>
+        <line x1="60" y1="8" x2="60" y2="-2" stroke="#ffc94d" stroke-width="3" stroke-linecap="round" opacity="0"/>
+      </g>
+      <defs><radialGradient id="gstar" cx=".35" cy=".3"><stop offset="0" stop-color="#ffe08a"/><stop offset=".55" stop-color="#ffc94d"/><stop offset="1" stop-color="#ff8a3d"/></radialGradient></defs>
+    </svg>
+    <div class="mascot-say" id="mascotSay"></div>
+    <button class="btn btn-gold" id="btnMascotOk" style="margin-top:16px" data-i="closeB"></button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+/* ============ i18n: 10 languages ============ */
+const T={
+en:{appName:"Knowledge Stars",tagline:"Learn the Syrian curriculum — 4,500 levels, 45,000 unique questions",
+privacyT:"Privacy Policy",privacyB:"Your privacy is fully respected. This game collects no personal data, sends nothing to anyone, and shows no ads. Your name and progress are saved on your device only, and photos you take with the camera stay on your device and are never uploaded.",
+agree:"I Agree",disagree:"I Do Not Agree",nameT:"What is your name, champion?",namePh:"Write your name (once only)",startB:"Let's Start!",
+mapT:"Level Map",mapSub:"Browse all 90 zones and pick any level",studyAlone:"Study Alone",studyAloneSub:"4,500 levels × 10 questions each — no question ever repeats",studyFriend:"Study with a Friend",studyFriendSub:"A private room is created instantly — invite a friend and race",
+friends:"Friends",noFriends:"No friends yet — play a duel and they'll appear here",dev:"Developer: Majd Ayad Naqsha",
+settings:"Settings",storeT:"Store",camera:"Smart Camera",camSub:"Point at a book page, take a shot, and build questions from it",
+captureB:"📸 Take Shot",addQ:"Build a question from this page",qText:"Question text",opt1:"Option 1",opt2:"Option 2",opt3:"Option 3",opt4:"Option 4",
+correctOpt:"Correct option",saveQ:"Save question",myQs:"My questions",playMyQs:"Play them",
+createRoom:"Your private room",roomReady:"Your room is ready — send the code below to your friend",copyB:"Copy code",copied:"Copied!",
+joinRoom:"Join a friend's room",pasteHere:"Paste your friend's code here",connectB:"Connect",sendBack:"Send this reply code back to your friend:",
+waiting:"Waiting for your friend...",connectedT:"Connected!",startB2:"Start the duel!",
+inviteT:"Invite a friend",inviteMsg:"Do you want to study with your friend?",shareCode:"Copy room code to send",closeB:"OK",
+themeT:"Theme (colors)",shapeT:"Option card shape",langT:"Language",soundT:"Sounds",timerT:"Question timer",voiceT:"Mascot voice",
+resetB:"Reset all progress",resetQ:"Delete everything? This cannot be undone.",remindT:"Study reminder (every 4 hours)",remindMsg:"🌟 Time to study! Your levels are waiting for you",buyB:"Buy",ownedB:"Owned",equipB:"Equipped",notEnough:"Not enough coins!",
+level:"Level",zone:"Zone",locked:"Locked",needPrev:"Finish the previous level first",correct:"Correct!",wrong:"Wrong!",
+streakMsg:"Great job! You've answered {n} questions in a row!",nextLevel:"Next level",replay:"Replay",home:"Home",
+yourScore:"Your score",oppScore:"Opponent",coinsEarned:"Coins earned",bestStreakT:"Best streak",youWin:"You Win! 🏆",youLose:"You Lost 💪",tie:"Tie! ⚖️",perfect:"PERFECT! ⭐⭐⭐",
+lvlDone:"Level completed!",welcomeBack:"Welcome back",quitQ:"Leave the level? Progress in it is lost",noCustom:"No questions yet — use the camera above",saved:"Saved!",
+fifty:"50/50",skipQ:"Skip",thCosmic:"Cosmic",thSunset:"Sunset",thOcean:"Ocean",thForest:"Forest",
+thGold:"Damascus Gold",thGoldD:"A royal golden theme",thSpace:"Deep Space",thSpaceD:"Pure black with neon stars",thNeon:"Neon City",thNeonD:"Bright neon nights",
+sndPiano:"Piano clicks",sndPianoD:"Musical key sounds",sndDrops:"Water drops",sndDropsD:"Soft droplet sounds",sndScifi:"Sci-fi",sndScifiD:"Futuristic laser sounds",
+pwFifty:"Remove two wrong options",pwFiftyD:"Use it during a level",pwSkip:"Skip a question",pwSkipD:"Counted as correct",
+shCrystal:"Crystal",shNeon:"Neon",shWood:"Wood",shMetal:"Metal",duelWin:"You won the duel!",duelLose:"Your friend won this time!",duelTie:"A fair tie!",oppJoined:"Your friend joined!"},
+ar:{appName:"نجوم المعرفة",tagline:"تعلّم المنهاج السوري — ٤٥٠٠ مرحلة و٤٥٠٠٠ سؤال لا يتكرر أبدًا",
+privacyT:"سياسة الخصوصية",privacyB:"نحترم خصوصيتك احترامًا كاملًا. هذه اللعبة لا تجمع أي بيانات شخصية، ولا ترسل شيئًا لأي جهة، ولا تعرض إعلانات. يُحفظ اسمك وتقدمك على جهازك فقط، والصور التي تلتقطها بالكاميرا تبقى على جهازك ولا تُرسل لأي مكان.",
+agree:"أوافق",disagree:"لا أوافق",nameT:"ما اسمك يا بطل؟",namePh:"اكتب اسمك (مرة واحدة فقط)",startB:"هيا نبدأ!",
+mapT:"خريطة المراحل",mapSub:"تنقّل بين 90 منطقة واختر أي مرحلة",studyAlone:"الدراسة لوحدي",studyAloneSub:"٤٥٠٠ مرحلة، كل مرحلة ١٠ أسئلة — لا يتكرر أي سؤال أبدًا",studyFriend:"الدراسة مع صديق",studyFriendSub:"تُنشأ غرفة خاصة فورًا — ادعُ صديقك وتسابقَا",
+friends:"الأصدقاء",noFriends:"لا يوجد أصدقاء بعد — العب تحديًا وسيظهرون هنا",dev:"المطور: مجد اياد نقشة",
+settings:"الإعدادات",storeT:"المتجر",camera:"التصوير الذكي",camSub:"وجّه الكاميرا نحو صفحة الكتاب، صوّرها، وأنشئ منها أسئلة",
+captureB:"📸 التقط الصورة",addQ:"أنشئ سؤالًا من هذه الصفحة",qText:"نص السؤال",opt1:"الخيار 1",opt2:"الخيار 2",opt3:"الخيار 3",opt4:"الخيار 4",
+correctOpt:"الخيار الصحيح",saveQ:"حفظ السؤال",myQs:"أسئلتي",playMyQs:"العب بها",
+createRoom:"غرفتك الخاصة",roomReady:"غرفتك جاهزة — أرسل الرمز التالي إلى صديقك",copyB:"نسخ الرمز",copied:"تم النسخ!",
+joinRoom:"الانضمام لغرفة صديق",pasteHere:"الصق رمز صديقك هنا",connectB:"اتصال",sendBack:"أرسل رمز الرد التالي إلى صديقك:",
+waiting:"في انتظار صديقك...",connectedT:"تم الاتصال!",startB2:"ابدأ التحدي!",
+inviteT:"دعوة صديق",inviteMsg:"هل تريد الدراسة مع صديقك؟",shareCode:"انسخ رمز الغرفة وأرسله",closeB:"حسنًا",
+themeT:"الشكل والألوان (الثيم)",shapeT:"شكل بطاقات الخيارات",langT:"اللغة",soundT:"الأصوات",timerT:"مؤقت السؤال",voiceT:"صوت الشخصية",
+resetB:"إعادة ضبط كل التقدم",resetQ:"سيُحذف كل شيء! هل أنت متأكد؟",remindT:"تذكير الدراسة (كل 4 ساعات)",remindMsg:"🌟 حان وقت الدراسة! مراحلك تنتظرك",buyB:"شراء",ownedB:"مملوك",equipB:"مُفعّل",notEnough:"النقاط غير كافية!",
+level:"مرحلة",zone:"مجرّة",locked:"مقفلة",needPrev:"أكمل المرحلة السابقة أولًا",correct:"أحسنت!",wrong:"خطأ!",
+streakMsg:"أحسنت! لقد أكملت {n} أسئلة على التوالي",nextLevel:"المرحلة التالية",replay:"إعادة",home:"الرئيسية",
+yourScore:"نتيجتك",oppScore:"الخصم",coinsEarned:"النقاط المكتسبة",bestStreakT:"أطول سلسلة",youWin:"فزت! 🏆",youLose:"خسرت 💪",tie:"تعادل! ⚖️",perfect:"ممتاز! ⭐⭐⭐",
+lvlDone:"أكملت المرحلة!",welcomeBack:"أهلاً بعودتك",quitQ:"الخروج من المرحلة؟ سيضيع تقدمك فيها",noCustom:"لا توجد أسئلة بعد — استخدم الكاميرا بالأعلى",saved:"تم الحفظ!",
+fifty:"٥٠/٥٠",skipQ:"تخطي",thCosmic:"كوني",thSunset:"غروب",thOcean:"محيط",thForest:"غابة",
+thGold:"الذهب الدمشقي",thGoldD:"ثيم ذهبي ملكي فخم",thSpace:"الفضاء العميق",thSpaceD:"أسود نقي بنجوم نيون",thNeon:"مدينة النيون",thNeonD:"ليالٍ نيون مضيئة",
+sndPiano:"نقرات بيانو",sndPianoD:"أصوات موسيقية للضغط",sndDrops:"قطرات ماء",sndDropsD:"أصوات ناعمة كالقطرات",sndScifi:"خيال علمي",sndScifiD:"أصوات ليزر مستقبلية",
+pwFifty:"حذف إجابتين خاطئتين",pwFiftyD:"استخدمه أثناء المرحلة",pwSkip:"تخطي سؤال",pwSkipD:"يُحسب صحيحًا",
+shCrystal:"كريستالي",shNeon:"نيون",shWood:"خشبي",shMetal:"معدني",duelWin:"فزت بالتحدي!",duelLose:"فاز صديقك هذه المرة!",duelTie:"تعادل عادل!",oppJoined:"انضم صديقك!"},
+fr:{appName:"Étoiles du Savoir",tagline:"Le programme scolaire syrien — 4 500 niveaux, 45 000 questions uniques",
+privacyT:"Politique de confidentialité",privacyB:"Votre vie privée est totalement respectée. Ce jeu ne collecte aucune donnée personnelle, n'envoie rien à personne et n'affiche aucune publicité. Votre nom et votre progression sont enregistrés uniquement sur votre appareil, et les photos prises avec l'appareil restent sur votre appareil.",
+agree:"J'accepte",disagree:"Je refuse",nameT:"Quel est ton nom, champion ?",namePh:"Écris ton nom (une seule fois)",startB:"C'est parti !",
+mapT:"Carte des niveaux",mapSub:"Parcourez les 90 zones et choisissez un niveau",studyAlone:"Étudier seul",studyAloneSub:"4 500 niveaux × 10 questions — aucune question ne se répète",studyFriend:"Étudier avec un ami",studyFriendSub:"Un salon privé est créé instantanément — invite un ami et lance un duel",
+friends:"Amis",noFriends:"Pas encore d'amis — joue un duel et ils apparaîtront ici",dev:"Développeur : Majd Ayad Naqsha",
+settings:"Paramètres",storeT:"Boutique",camera:"Caméra intelligente",camSub:"Vise une page de livre, prends une photo et crée des questions",
+captureB:"📸 Prendre la photo",addQ:"Créer une question depuis cette page",qText:"Texte de la question",opt1:"Choix 1",opt2:"Choix 2",opt3:"Choix 3",opt4:"Choix 4",
+correctOpt:"Bonne réponse",saveQ:"Enregistrer",myQs:"Mes questions",playMyQs:"Jouer",
+createRoom:"Ton salon privé",roomReady:"Ton salon est prêt — envoie le code ci-dessous à ton ami",copyB:"Copier le code",copied:"Copié !",
+joinRoom:"Rejoindre un salon",pasteHere:"Colle le code de ton ami ici",connectB:"Connexion",sendBack:"Renvoie ce code de réponse à ton ami :",
+waiting:"En attente de ton ami...",connectedT:"Connecté !",startB2:"Lancer le duel !",
+inviteT:"Inviter un ami",inviteMsg:"Veux-tu étudier avec ton ami ?",shareCode:"Copier le code du salon",closeB:"OK",
+themeT:"Thème (couleurs)",shapeT:"Forme des cartes",langT:"Langue",soundT:"Sons",timerT:"Minuteur",voiceT:"Voix de la mascotte",
+resetB:"Réinitialiser tout",resetQ:"Tout sera supprimé ! Tu es sûr ?",remindT:"Rappel d\u2019étude (toutes les 4 h)",remindMsg:"🌟 C\u2019est l\u2019heure d\u2019étudier ! Tes niveaux t\u2019attendent",buyB:"Acheter",ownedB:"Acquis",equipB:"Actif",notEnough:"Pas assez de pièces !",
+level:"Niveau",zone:"Galaxie",locked:"Verrouillé",needPrev:"Termine d'abord le niveau précédent",correct:"Bravo !",wrong:"Faux !",
+streakMsg:"Bravo ! Tu as répondu à {n} questions de suite !",nextLevel:"Niveau suivant",replay:"Rejouer",home:"Accueil",
+yourScore:"Ton score",oppScore:"Adversaire",coinsEarned:"Pièces gagnées",bestStreakT:"Meilleure série",youWin:"Tu as gagné ! 🏆",youLose:"Tu as perdu 💪",tie:"Égalité ! ⚖️",perfect:"PARFAIT ! ⭐⭐⭐",
+lvlDone:"Niveau terminé !",welcomeBack:"Bon retour",quitQ:"Quitter le niveau ? Ta progression sera perdue",noCustom:"Aucune question — utilise la caméra ci-dessus",saved:"Enregistré !",
+fifty:"50/50",skipQ:"Passer",thCosmic:"Cosmique",thSunset:"Coucher de soleil",thOcean:"Océan",thForest:"Forêt",
+thGold:"Or de Damas",thGoldD:"Un thème doré royal",thSpace:"Espace profond",thSpaceD:"Noir pur aux étoiles néon",thNeon:"Ville néon",thNeonD:"Nuits néon lumineuses",
+sndPiano:"Clics piano",sndPianoD:"Sons musicaux",sndDrops:"Gouttes d'eau",sndDropsD:"Sons doux de gouttes",sndScifi:"Science-fiction",sndScifiD:"Sons laser futuristes",
+pwFifty:"Supprime deux mauvaises réponses",pwFiftyD:"À utiliser pendant un niveau",pwSkip:"Passer une question",pwSkipD:"Comptée comme correcte",
+shCrystal:"Cristal",shNeon:"Néon",shWood:"Bois",shMetal:"Métal",duelWin:"Tu as gagné le duel !",duelLose:"Ton ami a gagné cette fois !",duelTie:"Égalité parfaite !",oppJoined:"Ton ami a rejoint !"},
+es:{appName:"Estrellas del Saber",tagline:"El currículo sirio — 4 500 niveles, 45 000 preguntas únicas",
+privacyT:"Política de privacidad",privacyB:"Tu privacidad es totalmente respetada. Este juego no recopila datos personales, no envía nada a nadie y no muestra anuncios. Tu nombre y progreso se guardan solo en tu dispositivo, y las fotos de la cámara permanecen en tu dispositivo.",
+agree:"Acepto",disagree:"No acepto",nameT:"¿Cómo te llamas, campeón?",namePh:"Escribe tu nombre (una sola vez)",startB:"¡Empecemos!",
+mapT:"Mapa de niveles",mapSub:"Recorre las 90 zonas y elige cualquier nivel",studyAlone:"Estudiar solo",studyAloneSub:"4 500 niveles × 10 preguntas — ninguna pregunta se repite",studyFriend:"Estudiar con un amigo",studyFriendSub:"Se crea una sala privada al instante — invita a un amigo y compite",
+friends:"Amigos",noFriends:"Aún no hay amigos — juega un duelo y aparecerán aquí",dev:"Desarrollador: Majd Ayad Naqsha",
+settings:"Ajustes",storeT:"Tienda",camera:"Cámara inteligente",camSub:"Apunta a una página del libro, toma una foto y crea preguntas",
+captureB:"📸 Tomar foto",addQ:"Crea una pregunta desde esta página",qText:"Texto de la pregunta",opt1:"Opción 1",opt2:"Opción 2",opt3:"Opción 3",opt4:"Opción 4",
+correctOpt:"Opción correcta",saveQ:"Guardar",myQs:"Mis preguntas",playMyQs:"Jugar",
+createRoom:"Tu sala privada",roomReady:"Tu sala está lista — envía el código a tu amigo",copyB:"Copiar código",copied:"¡Copiado!",
+joinRoom:"Unirse a una sala",pasteHere:"Pega el código de tu amigo aquí",connectB:"Conectar",sendBack:"Envía este código de respuesta a tu amigo:",
+waiting:"Esperando a tu amigo...",connectedT:"¡Conectado!",startB2:"¡Comenzar duelo!",
+inviteT:"Invitar a un amigo",inviteMsg:"¿Quieres estudiar con tu amigo?",shareCode:"Copiar código de sala",closeB:"OK",
+themeT:"Tema (colores)",shapeT:"Forma de las tarjetas",langT:"Idioma",soundT:"Sonidos",timerT:"Temporizador",voiceT:"Voz de la mascota",
+resetB:"Restablecer todo",resetQ:"¡Se borrará todo! ¿Estás seguro?",remindT:"Recordatorio de estudio (cada 4 h)",remindMsg:"🌟 ¡Hora de estudiar! Tus niveles te esperan",buyB:"Comprar",ownedB:"Obtenido",equipB:"Activo",notEnough:"¡Monedas insuficientes!",
+level:"Nivel",zone:"Galaxia",locked:"Bloqueado",needPrev:"Termina antes el nivel anterior",correct:"¡Bien!",wrong:"¡Mal!",
+streakMsg:"¡Genial! Has respondido {n} preguntas seguidas",nextLevel:"Siguiente nivel",replay:"Repetir",home:"Inicio",
+yourScore:"Tu puntuación",oppScore:"Rival",coinsEarned:"Monedas ganadas",bestStreakT:"Mejor racha",youWin:"¡Ganaste! 🏆",youLose:"Perdiste 💪",tie:"¡Empate! ⚖️",perfect:"¡PERFECTO! ⭐⭐⭐",
+lvlDone:"¡Nivel completado!",welcomeBack:"Bienvenido de nuevo",quitQ:"¿Salir del nivel? Se perderá tu progreso",noCustom:"Aún no hay preguntas — usa la cámara",saved:"¡Guardado!",
+fifty:"50/50",skipQ:"Saltar",thCosmic:"Cósmico",thSunset:"Atardecer",thOcean:"Océano",thForest:"Bosque",
+thGold:"Oro de Damasco",thGoldD:"Un tema dorado real",thSpace:"Espacio profundo",thSpaceD:"Negro puro con estrellas neón",thNeon:"Ciudad neón",thNeonD:"Noches de neón brillante",
+sndPiano:"Clics de piano",sndPianoD:"Sonidos musicales",sndDrops:"Gotas de agua",sndDropsD:"Sonidos suaves de gotas",sndScifi:"Ciencia ficción",sndScifiD:"Sonidos láser futuristas",
+pwFifty:"Elimina dos opciones malas",pwFiftyD:"Úsalo durante un nivel",pwSkip:"Saltar una pregunta",pwSkipD:"Cuenta como correcta",
+shCrystal:"Cristal",shNeon:"Neón",shWood:"Madera",shMetal:"Metal",duelWin:"¡Ganaste el duelo!",duelLose:"¡Tu amigo ganó esta vez!",duelTie:"¡Empate justo!",oppJoined:"¡Tu amigo se unió!"},
+de:{appName:"Sterne des Wissens",tagline:"Der syrische Lehrplan — 4.500 Level, 45.000 einzigartige Fragen",
+privacyT:"Datenschutzerklärung",privacyB:"Deine Privatsphäre wird voll respektiert. Dieses Spiel sammelt keine persönlichen Daten, sendet nichts an niemanden und zeigt keine Werbung. Name und Fortschritt werden nur auf deinem Gerät gespeichert, Kamerafotos bleiben auf deinem Gerät.",
+agree:"Ich stimme zu",disagree:"Ich stimme nicht zu",nameT:"Wie heißt du, Champion?",namePh:"Schreibe deinen Namen (nur einmal)",startB:"Los geht's!",
+mapT:"Level-Karte",mapSub:"Alle 90 Zonen durchsuchen und ein Level wählen",studyAlone:"Alleine lernen",studyAloneSub:"4.500 Level × 10 Fragen — keine Frage wiederholt sich",studyFriend:"Mit einem Freund lernen",studyFriendSub:"Ein privater Raum wird sofort erstellt — lade einen Freund ein",
+friends:"Freunde",noFriends:"Noch keine Freunde — spiele ein Duell",dev:"Entwickler: Majd Ayad Naqsha",
+settings:"Einstellungen",storeT:"Shop",camera:"Intelligente Kamera",camSub:"Richte die Kamera auf eine Buchseite, fotografiere und erstelle Fragen",
+captureB:"📸 Foto aufnehmen",addQ:"Frage aus dieser Seite erstellen",qText:"Fragetext",opt1:"Option 1",opt2:"Option 2",opt3:"Option 3",opt4:"Option 4",
+correctOpt:"Richtige Option",saveQ:"Speichern",myQs:"Meine Fragen",playMyQs:"Spielen",
+createRoom:"Dein privater Raum",roomReady:"Dein Raum ist bereit — sende den Code an deinen Freund",copyB:"Code kopieren",copied:"Kopiert!",
+joinRoom:"Raum beitreten",pasteHere:"Füge den Code deines Freundes ein",connectB:"Verbinden",sendBack:"Sende diesen Antwortcode an deinen Freund:",
+waiting:"Warte auf deinen Freund...",connectedT:"Verbunden!",startB2:"Duell starten!",
+inviteT:"Freund einladen",inviteMsg:"Willst du mit deinem Freund lernen?",shareCode:"Raumcode kopieren",closeB:"OK",
+themeT:"Design (Farben)",shapeT:"Form der Karten",langT:"Sprache",soundT:"Töne",timerT:"Timer",voiceT:"Maskottchen-Stimme",
+resetB:"Alles zurücksetzen",remindT:"Lernerinnerung (alle 4 Std.)",remindMsg:"🌟 Zeit zu lernen! Deine Level warten auf dich",resetQ:"Alles wird gelöscht! Bist du sicher?",buyB:"Kaufen",ownedB:"Gekauft",equipB:"Aktiv",notEnough:"Nicht genug Münzen!",
+level:"Level",zone:"Galaxie",locked:"Gesperrt",needPrev:"Beende zuerst das vorherige Level",correct:"Richtig!",wrong:"Falsch!",
+streakMsg:"Super! Du hast {n} Fragen in Folge richtig beantwortet!",nextLevel:"Nächstes Level",replay:"Wiederholen",home:"Start",
+yourScore:"Dein Ergebnis",oppScore:"Gegner",coinsEarned:"Münzen verdient",bestStreakT:"Beste Serie",youWin:"Du hast gewonnen! 🏆",youLose:"Du hast verloren 💪",tie:"Unentschieden! ⚖️",perfect:"PERFEKT! ⭐⭐⭐",
+lvlDone:"Level geschafft!",welcomeBack:"Willkommen zurück",quitQ:"Level verlassen? Der Fortschritt geht verloren",noCustom:"Noch keine Fragen — benutze die Kamera",saved:"Gespeichert!",
+fifty:"50/50",skipQ:"Überspringen",thCosmic:"Kosmisch",thSunset:"Sonnenuntergang",thOcean:"Ozean",thForest:"Wald",
+thGold:"Damaszener Gold",thGoldD:"Ein königliches Goldenes Design",thSpace:"Tiefer Weltraum",thSpaceD:"Pures Schwarz mit Neonsternen",thNeon:"Neonstadt",thNeonD:"Leuchtende Neonächte",
+sndPiano:"Klavier-Klicks",sndPianoD:"Musikalische Klänge",sndDrops:"Wassertropfen",sndDropsD:"Weiche Tropfenklänge",sndScifi:"Sci-Fi",sndScifiD:"Futuristische Laserklänge",
+pwFifty:"Entfernt zwei falsche Optionen",pwFiftyD:"Während eines Levels nutzen",pwSkip:"Frage überspringen",pwSkipD:"Zählt als richtig",
+shCrystal:"Kristall",shNeon:"Neon",shWood:"Holz",shMetal:"Metall",duelWin:"Du hast das Duell gewonnen!",duelLose:"Dein Freund hat diesmal gewonnen!",duelTie:"Ein faires Unentschieden!",oppJoined:"Dein Freund ist beigetreten!"},
+tr:{appName:"Bilgi Yıldızları",tagline:"Suriye müfredatı — 4.500 bölüm, 45.000 benzersiz soru",
+privacyT:"Gizlilik Politikası",privacyB:"Gizliliğin tamamen saygı görür. Bu oyun kişisel veri toplamaz, kimseye bir şey göndermez ve reklam göstermez. Adın ve ilerlemen yalnızca cihazında saklanır; kamera fotoğrafları cihazında kalır.",
+agree:"Kabul ediyorum",disagree:"Kabul etmiyorum",nameT:"Adın ne şampiyon?",namePh:"Adını yaz (yalnızca bir kez)",startB:"Hadi başlayalım!",
+mapT:"Bölüm haritası",mapSub:"90 bölgeye göz at ve herhangi bir bölümü seç",studyAlone:"Tek başına çalış",studyAloneSub:"4.500 bölüm × 10 soru — hiçbir soru tekrar etmez",studyFriend:"Arkadaşla çalış",studyFriendSub:"Özel oda anında oluşturulur — arkadaşını davet et ve yarış",
+friends:"Arkadaşlar",noFriends:"Henüz arkadaş yok — bir düello oyna",dev:"Geliştirici: Majd Ayad Naqsha",
+settings:"Ayarlar",storeT:"Mağaza",camera:"Akıllı kamera",camSub:"Kitap sayfasına doğrult, çekim yap ve soru oluştur",
+captureB:"📸 Fotoğraf çek",addQ:"Bu sayfadan soru oluştur",qText:"Soru metni",opt1:"Seçenek 1",opt2:"Seçenek 2",opt3:"Seçenek 3",opt4:"Seçenek 4",
+correctOpt:"Doğru seçenek",saveQ:"Kaydet",myQs:"Sorularım",playMyQs:"Oyna",
+createRoom:"Özel odan",roomReady:"Odan hazır — kodu arkadaşına gönder",copyB:"Kodu kopyala",copied:"Kopyalandı!",
+joinRoom:"Odaya katıl",pasteHere:"Arkadaşının kodunu buraya yapıştır",connectB:"Bağlan",sendBack:"Bu yanıt kodunu arkadaşına gönder:",
+waiting:"Arkadaşın bekleniyor...",connectedT:"Bağlandı!",startB2:"Düelloyu başlat!",
+inviteT:"Arkadaş davet et",inviteMsg:"Arkadaşınla çalışmak ister misin?",shareCode:"Oda kodunu kopyala",closeB:"Tamam",
+themeT:"Tema (renkler)",shapeT:"Kart şekli",langT:"Dil",soundT:"Sesler",timerT:"Süre sayacı",voiceT:"Maskot sesi",
+resetB:"Her şeyi sıfırla",remindT:"Çalışma hatırlatıcısı (4 saatte bir)",remindMsg:"🌟 Çalışma zamanı! Seviyelerin seni bekliyor",resetQ:"Her şey silinecek! Emin misin?",buyB:"Satın al",ownedB:"Sahip",equipB:"Etkin",notEnough:"Yeterli coin yok!",
+level:"Bölüm",zone:"Galaksi",locked:"Kilitli",needPrev:"Önce önceki bölümü bitir",correct:"Doğru!",wrong:"Yanlış!",
+streakMsg:"Harika! Üst üste {n} soruyu doğru bildin!",nextLevel:"Sonraki bölüm",replay:"Tekrar",home:"Ana sayfa",
+yourScore:"Puanın",oppScore:"Rakip",coinsEarned:"Kazanılan coin",bestStreakT:"En iyi seri",youWin:"Kazandın! 🏆",youLose:"Kaybettin 💪",tie:"Berabere! ⚖️",perfect:"MÜKEMMEL! ⭐⭐⭐",
+lvlDone:"Bölüm tamamlandı!",welcomeBack:"Tekrar hoş geldin",quitQ:"Bölümden çıkılsın mı? İlerleme kaybolur",noCustom:"Henüz soru yok — yukarıdaki kamerayı kullan",saved:"Kaydedildi!",
+fifty:"50/50",skipQ:"Atla",thCosmic:"Kozmik",thSunset:"Gün batımı",thOcean:"Okyanus",thForest:"Orman",
+thGold:"Şam Altını",thGoldD:"Kraliyet altın teması",thSpace:"Derin Uzay",thSpaceD:"Neon yıldızlı saf siyah",thNeon:"Neon Şehir",thNeonD:"Parlak neon geceler",
+sndPiano:"Piyano tıkları",sndPianoD:"Müzikal sesler",sndDrops:"Su damlaları",sndDropsD:"Yumuşak damla sesleri",sndScifi:"Bilim kurgu",sndScifiD:"Fütüristik lazer sesleri",
+pwFifty:"İki yanlış seçeneği kaldırır",pwFiftyD:"Bölüm sırasında kullan",pwSkip:"Soruyu atla",pwSkipD:"Doğru sayılır",
+shCrystal:"Kristal",shNeon:"Neon",shWood:"Ahşap",shMetal:"Metal",duelWin:"Düelloyu kazandın!",duelLose:"Bu sefer arkadaşın kazandı!",duelTie:"Adil berabere!",oppJoined:"Arkadaşın katıldı!"},
+zh:{appName:"知识之星",tagline:"叙利亚课程 — 4500个关卡，45000道不重复的题目",
+privacyT:"隐私政策",privacyB:"我们完全尊重您的隐私。本游戏不收集任何个人数据，不向任何人发送信息，也不显示广告。您的名字和进度仅保存在您的设备上，相机拍摄的照片也只保留在您的设备上。",
+agree:"我同意",disagree:"我不同意",nameT:"冠军，你叫什么名字？",namePh:"写下你的名字（仅一次）",startB:"开始吧！",
+mapT:"关卡地图",mapSub:"浏览全部90个区域并选择任意关卡",studyAlone:"独自学习",studyAloneSub:"4500个关卡 × 每关10题 — 题目绝不重复",studyFriend:"与朋友一起学习",studyFriendSub:"立即创建私人房间 — 邀请朋友来比赛",
+friends:"好友",noFriends:"还没有好友 — 玩一场对决吧",dev:"开发者：Majd Ayad Naqsha",
+settings:"设置",storeT:"商店",camera:"智能相机",camSub:"对准书页拍照，然后从中创建问题",
+captureB:"📸 拍照",addQ:"从此页面创建问题",qText:"问题内容",opt1:"选项1",opt2:"选项2",opt3:"选项3",opt4:"选项4",
+correctOpt:"正确选项",saveQ:"保存问题",myQs:"我的问题",playMyQs:"开始游戏",
+createRoom:"你的私人房间",roomReady:"房间已就绪 — 把下面的代码发给朋友",copyB:"复制代码",copied:"已复制！",
+joinRoom:"加入朋友的房间",pasteHere:"在此粘贴朋友的代码",connectB:"连接",sendBack:"把这个回复代码发回给朋友：",
+waiting:"正在等待朋友...",connectedT:"已连接！",startB2:"开始对决！",
+inviteT:"邀请好友",inviteMsg:"你想和朋友一起学习吗？",shareCode:"复制房间代码发送",closeB:"好的",
+themeT:"主题（颜色）",shapeT:"选项卡形状",langT:"语言",soundT:"声音",timerT:"题目计时器",voiceT:"吉祥物语音",
+resetB:"重置所有进度",remindT:"学习提醒（每4小时）",remindMsg:"🌟 学习时间到了！你的关卡在等你",resetQ:"所有内容将被删除！确定吗？",buyB:"购买",ownedB:"已拥有",equipB:"使用中",notEnough:"金币不足！",
+level:"关卡",zone:"星系",locked:"未解锁",needPrev:"请先完成上一关",correct:"正确！",wrong:"错误！",
+streakMsg:"太棒了！你连续答对了{n}道题！",nextLevel:"下一关",replay:"重玩",home:"主页",
+yourScore:"你的得分",oppScore:"对手",coinsEarned:"获得的金币",bestStreakT:"最长连胜",youWin:"你赢了！🏆",youLose:"你输了 💪",tie:"平局！⚖️",perfect:"完美！⭐⭐⭐",
+lvlDone:"关卡完成！",welcomeBack:"欢迎回来",quitQ:"离开关卡？进度将丢失",noCustom:"还没有问题 — 使用上面的相机",saved:"已保存！",
+fifty:"50/50",skipQ:"跳过",thCosmic:"星空",thSunset:"日落",thOcean:"海洋",thForest:"森林",
+thGold:"大马士革金",thGoldD:"华丽的皇家金色主题",thSpace:"深空",thSpaceD:"纯黑与霓虹星星",thNeon:"霓虹之城",thNeonD:"明亮的霓虹之夜",
+sndPiano:"钢琴音",sndPianoD:"音乐按键声",sndDrops:"水滴",sndDropsD:"轻柔水滴声",sndScifi:"科幻",sndScifiD:"未来激光音效",
+pwFifty:"移除两个错误选项",pwFiftyD:"在关卡中使用",pwSkip:"跳过一个问题",pwSkipD:"算作正确",
+shCrystal:"水晶",shNeon:"霓虹",shWood:"木质",shMetal:"金属",duelWin:"你赢得了对决！",duelLose:"这次你的朋友赢了！",duelTie:"公平的平局！",oppJoined:"你的朋友加入了！"},
+ru:{appName:"Звёзды Знаний",tagline:"Сирийская программа — 4500 уровней, 45000 уникальных вопросов",
+privacyT:"Политика конфиденциальности",privacyB:"Ваша конфиденциальность полностью уважается. Игра не собирает личные данные, ничего никому не отправляет и не показывает рекламу. Имя и прогресс сохраняются только на вашем устройстве, фотографии с камеры остаются на устройстве.",
+agree:"Согласен",disagree:"Не согласен",nameT:"Как тебя зовут, чемпион?",namePh:"Напиши своё имя (только один раз)",startB:"Начнём!",
+mapT:"Карта уровней",mapSub:"Просмотрите все 90 зон и выберите уровень",studyAlone:"Учиться одному",studyAloneSub:"4500 уровней × 10 вопросов — вопросы не повторяются",studyFriend:"Учиться с другом",studyFriendSub:"Лучшая комната создаётся мгновенно — пригласи друга и соревнуйся",
+friends:"Друзья",noFriends:"Пока нет друзей — сыграй дуэль",dev:"Разработчик: Majd Ayad Naqsha",
+settings:"Настройки",storeT:"Магазин",camera:"Умная камера",camSub:"Наведи на страницу книги, сделай снимок и создай вопросы",
+captureB:"📸 Сделать снимок",addQ:"Создать вопрос из страницы",qText:"Текст вопроса",opt1:"Вариант 1",opt2:"Вариант 2",opt3:"Вариант 3",opt4:"Вариант 4",
+correctOpt:"Правильный вариант",saveQ:"Сохранить",myQs:"Мои вопросы",playMyQs:"Играть",
+createRoom:"Твоя личная комната",roomReady:"Комната готова — отправь код другу",copyB:"Копировать код",copied:"Скопировано!",
+joinRoom:"Присоединиться к комнате",pasteHere:"Вставь код друга сюда",connectB:"Подключить",sendBack:"Отправь этот код ответа другу:",
+waiting:"Ожидание друга...",connectedT:"Подключено!",startB2:"Начать дуэль!",
+inviteT:"Пригласить друга",inviteMsg:"Хочешь учиться с другом?",shareCode:"Копировать код комнаты",closeB:"ОК",
+themeT:"Тема (цвета)",shapeT:"Форма карточек",langT:"Язык",soundT:"Звуки",timerT:"Таймер",voiceT:"Голос маскота",
+resetB:"Сбросить всё",remindT:"Напоминание об учёбе (каждые 4 часа)",remindMsg:"🌟 Время учиться! Твои уровни ждут тебя",resetQ:"Всё будет удалено! Ты уверен?",buyB:"Купить",ownedB:"Куплено",equipB:"Активно",notEnough:"Недостаточно монет!",
+level:"Уровень",zone:"Галактика",locked:"Закрыто",needPrev:"Сначала пройди предыдущий уровень",correct:"Верно!",wrong:"Неверно!",
+streakMsg:"Отлично! Ты ответил правильно на {n} вопросов подряд!",nextLevel:"Следующий уровень",replay:"Ещё раз",home:"Домой",
+yourScore:"Твой счёт",oppScore:"Соперник",coinsEarned:"Заработано монет",bestStreakT:"Лучшая серия",youWin:"Победа! 🏆",youLose:"Проигрыш 💪",tie:"Ничья! ⚖️",perfect:"ИДЕАЛЬНО! ⭐⭐⭐",
+lvlDone:"Уровень пройден!",welcomeBack:"С возвращением",quitQ:"Выйти из уровня? Прогресс потеряется",noCustom:"Пока нет вопросов — используй камеру",saved:"Сохранено!",
+fifty:"50/50",skipQ:"Пропустить",thCosmic:"Космос",thSunset:"Закат",thOcean:"Океан",thForest:"Лес",
+thGold:"Дамасское золото",thGoldD:"Королевская золотая тема",thSpace:"Глубокий космос",thSpaceD:"Чистый чёрный с неоновыми звёздами",thNeon:"Неоновый город",thNeonD:"Яркие неоновые ночи",
+sndPiano:"Пианино",sndPianoD:"Музыкальные клики",sndDrops:"Капли воды",sndDropsD:"Мягкие звуки капель",sndScifi:" Sci-fi",sndScifiD:"Футуристичные лазеры",
+pwFifty:"Убирает два неверных варианта",pwFiftyD:"Используй во время уровня",pwSkip:"Пропустить вопрос",pwSkipD:"Считается правильным",
+shCrystal:"Кристалл",shNeon:"Неон",shWood:"Дерево",shMetal:"Металл",duelWin:"Ты выиграл дуэль!",duelLose:"На этот раз выиграл друг!",duelTie:"Честная ничья!",oppJoined:"Друг присоединился!"},
+pt:{appName:"Estrelas do Saber",tagline:"O currículo sírio — 4 500 níveis, 45 000 perguntas únicas",
+privacyT:"Política de Privacidade",privacyB:"Sua privacidade é totalmente respeitada. Este jogo não coleta dados pessoais, não envia nada a ninguém e não mostra anúncios. Seu nome e progresso ficam salvos apenas no seu dispositivo, e as fotos da câmera permanecem no dispositivo.",
+agree:"Eu concordo",disagree:"Não concordo",nameT:"Qual é o seu nome, campeão?",namePh:"Escreva seu nome (apenas uma vez)",startB:"Vamos começar!",
+mapT:"Mapa de níveis",mapSub:"Explore as 90 zonas e escolha qualquer nível",studyAlone:"Estudar sozinho",studyAloneSub:"4 500 níveis × 10 perguntas — nenhuma pergunta se repete",studyFriend:"Estudar com um amigo",studyFriendSub:"Uma sala privada é criada na hora — convide um amigo e compita",
+friends:"Amigos",noFriends:"Ainda não há amigos — jogue um duelo",dev:"Desenvolvedor: Majd Ayad Naqsha",
+settings:"Configurações",storeT:"Loja",camera:"Câmera inteligente",camSub:"Aponte para uma página do livro, tire uma foto e crie perguntas",
+captureB:"📸 Tirar foto",addQ:"Criar pergunta desta página",qText:"Texto da pergunta",opt1:"Opção 1",opt2:"Opção 2",opt3:"Opção 3",opt4:"Opção 4",
+correctOpt:"Opção correta",saveQ:"Salvar",myQs:"Minhas perguntas",playMyQs:"Jogar",
+createRoom:"Sua sala privada",roomReady:"Sua sala está pronta — envie o código ao seu amigo",copyB:"Copiar código",copied:"Copiado!",
+joinRoom:"Entrar numa sala",pasteHere:"Cole o código do seu amigo aqui",connectB:"Conectar",sendBack:"Envie este código de resposta ao seu amigo:",
+waiting:"Aguardando seu amigo...",connectedT:"Conectado!",startB2:"Iniciar duelo!",
+inviteT:"Convidar amigo",inviteMsg:"Quer estudar com seu amigo?",shareCode:"Copiar código da sala",closeB:"OK",
+themeT:"Tema (cores)",shapeT:"Forma dos cartões",langT:"Idioma",soundT:"Sons",timerT:"Cronômetro",voiceT:"Voz do mascote",
+resetB:"Redefinir tudo",remindT:"Lembrete de estudo (a cada 4 h)",remindMsg:"🌟 Hora de estudiar! Seus níveis estão esperando",resetQ:"Tudo será apagado! Tem certeza?",buyB:"Comprar",ownedB:"Adquirido",equipB:"Ativo",notEnough:"Moedas insuficientes!",
+level:"Nível",zone:"Galáxia",locked:"Bloqueado",needPrev:"Termine o nível anterior primeiro",correct:"Correto!",wrong:"Errado!",
+streakMsg:"Muito bem! Você acertou {n} perguntas seguidas!",nextLevel:"Próximo nível",replay:"Repetir",home:"Início",
+yourScore:"Sua pontuação",oppScore:"Adversário",coinsEarned:"Moedas ganhas",bestStreakT:"Melhor sequência",youWin:"Você venceu! 🏆",youLose:"Você perdeu 💪",tie:"Empate! ⚖️",perfect:"PERFEITO! ⭐⭐⭐",
+lvlDone:"Nível concluído!",welcomeBack:"Bem-vindo de volta",quitQ:"Sair do nível? O progresso será perdido",noCustom:"Ainda sem perguntas — use a câmera",saved:"Salvo!",
+fifty:"50/50",skipQ:"Pular",thCosmic:"Cósmico",thSunset:"Pôr do sol",thOcean:"Oceano",thForest:"Floresta",
+thGold:"Ouro de Damasco",thGoldD:"Um tema dourado real",thSpace:"Espaço profundo",thSpaceD:"Preto puro com estrelas neon",thNeon:"Cidade Neon",thNeonD:"Noites neon brilhantes",
+sndPiano:"Cliques de piano",sndPianoD:"Sons musicais",sndDrops:"Gotas d'água",sndDropsD:"Sons suaves de gotas",sndScifi:"Ficção científica",sndScifiD:"Sons de laser futuristas",
+pwFifty:"Remove duas opções erradas",pwFiftyD:"Use durante um nível",pwSkip:"Pular pergunta",pwSkipD:"Conta como correta",
+shCrystal:"Cristal",shNeon:"Neon",shWood:"Madeira",shMetal:"Metal",duelWin:"Você venceu o duelo!",duelLose:"Seu amigo venceu desta vez!",duelTie:"Empate justo!",oppJoined:"Seu amigo entrou!"},
+id:{appName:"Bintang Pengetahuan",tagline:"Kurikulum Suriah — 4.500 level, 45.000 soal unik",
+privacyT:"Kebijakan Privasi",privacyB:"Privasimu dihormati sepenuhnya. Game ini tidak mengumpulkan data pribadi, tidak mengirim apa pun ke siapa pun, dan tidak menampilkan iklan. Nama dan progresmu hanya disimpan di perangkatmu, dan foto kamera tetap di perangkatmu.",
+agree:"Saya setuju",disagree:"Saya tidak setuju",nameT:"Siapa namamu, juara?",namePh:"Tulis namamu (hanya sekali)",startB:"Ayo mulai!",
+mapT:"Peta level",mapSub:"Jelajahi 90 zona dan pilih level apa saja",studyAlone:"Belajar sendiri",studyAloneSub:"4.500 level × 10 soal — tidak ada soal yang berulang",studyFriend:"Belajar dengan teman",studyFriendSub:"Ruang pribadi dibuat seketika — ajak teman dan bertanding",
+friends:"Teman",noFriends:"Belum ada teman — mainkan sebuah duel",dev:"Pengembang: Majd Ayad Naqsha",
+settings:"Pengaturan",storeT:"Toko",camera:"Kamera pintar",camSub:"Arahkan ke halaman buku, ambil foto, dan buat soal darinya",
+captureB:"📸 Ambil foto",addQ:"Buat soal dari halaman ini",qText:"Teks soal",opt1:"Pilihan 1",opt2:"Pilihan 2",opt3:"Pilihan 3",opt4:"Pilihan 4",
+correctOpt:"Pilihan benar",saveQ:"Simpan",myQs:"Soal-sayaku",playMyQs:"Mainkan",
+createRoom:"Ruang pribadimu",roomReady:"Ruangmu siap — kirim kode ini ke temanmu",copyB:"Salin kode",copied:"Tersalin!",
+joinRoom:"Gabung ruang teman",pasteHere:"Tempel kode temanmu di sini",connectB:"Hubungkan",sendBack:"Kirim kode balasan ini ke temanmu:",
+waiting:"Menunggu temanmu...",connectedT:"Terhubung!",startB2:"Mulai duel!",
+inviteT:"Undang teman",inviteMsg:"Apakah kamu ingin belajar dengan temanmu?",shareCode:"Salin kode ruang",closeB:"OK",
+themeT:"Tema (warna)",shapeT:"Bentuk kartu",langT:"Bahasa",soundT:"Suara",timerT:"Pewaktu",voiceT:"Suara maskot",
+resetB:"Atur ulang semua",remindT:"Pengingat belajar (setiap 4 jam)",remindMsg:"🌟 Saatnya belajar! Level-menimu menantimu",resetQ:"Semua akan dihapus! Yakin?",buyB:"Beli",ownedB:"Dimiliki",equipB:"Aktif",notEnough:"Koin tidak cukup!",
+level:"Level",zone:"Galaksi",locked:"Terkunci",needPrev:"Selesaikan level sebelumnya dulu",correct:"Benar!",wrong:"Salah!",
+streakMsg:"Hebat! Kamu menjawab {n} soal beruntun!",nextLevel:"Level berikutnya",replay:"Ulangi",home:"Beranda",
+yourScore:"Skormu",oppScore:"Lawan",coinsEarned:"Koin didapat",bestStreakT:"Beruntun terbaik",youWin:"Kamu menang! 🏆",youLose:"Kamu kalah 💪",tie:"Seri! ⚖️",perfect:"SEMPURNA! ⭐⭐⭐",
+lvlDone:"Level selesai!",welcomeBack:"Selamat datang kembali",quitQ:"Keluar dari level? Progres hilang",noCustom:"Belum ada soal — gunakan kamera di atas",saved:"Tersimpan!",
+fifty:"50/50",skipQ:"Lewati",thCosmic:"Kosmik",thSunset:"Senja",thOcean:"Samudra",thForest:"Hutan",
+thGold:"Emas Damaskus",thGoldD:"Tema emas kerajaan",thSpace:"Ruang Angkasa",thSpaceD:"Hitam murni dengan bintang neon",thNeon:"Kota Neon",thNeonD:"Malam neon yang terang",
+sndPiano:"Klik piano",sndPianoD:"Suara musikal",sndDrops:"Tetesan air",sndDropsD:"Suara tetesan lembut",sndScifi:"Fiksi ilmiah",sndScifiD:"Suara laser futuristik",
+pwFifty:"Menghapus dua pilihan salah",pwFiftyD:"Gunakan saat level",pwSkip:"Lewati soal",pwSkipD:"Dianggap benar",
+shCrystal:"Kristal",shNeon:"Neon",shWood:"Kayu",shMetal:"Logam",duelWin:"Kamu memenangkan duel!",duelLose:"Temanmu menang kali ini!",duelTie:"Seri yang adil!",oppJoined:"Temanmu bergabung!"}
+};
+const LANGS=[["en","English"],["ar","العربية"],["fr","Français"],["es","Español"],["de","Deutsch"],["tr","Türkçe"],["zh","中文"],["ru","Русский"],["pt","Português"],["id","Indonesia"]];
+function t(k){const L=T[S.lang]||T.en;return (L[k]!==undefined?L[k]:(T.en[k]!==undefined?T.en[k]:k))}
+/* ============ State & storage ============ */
+let S={agreed:false,name:"",lang:"en",theme:"cosmic",shape:"crystal",sound:true,timer:true,voice:true,
+  coins:0,owned:{},items:{fifty:1,skip:1},level:1,stars:{},used:[],friends:[],custom:[],best:0,remind:true,lastRemind:0};
+function save(){try{localStorage.setItem("najoom_v1",JSON.stringify(S))}catch(e){}}
+function load(){try{const d=localStorage.getItem("najoom_v1");if(d){S=Object.assign(S,JSON.parse(d))}}catch(e){}
+  if(typeof S.level!=="number"||!(S.level>=1)||S.level>4501)S.level=1;
+  if(typeof S.stars!=="object"||!S.stars)S.stars={};
+  if(!Array.isArray(S.used))S.used=[];if(!Array.isArray(S.friends))S.friends=[];if(!Array.isArray(S.custom))S.custom=[];
+  if(typeof S.lastRemind!=="number")S.lastRemind=0}
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),2200)}
+/* ============ Sounds (WebAudio) ============ */
+let AC=null;
+function ac(){if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(AC&&AC.state==="suspended")AC.resume();return AC}
+const SNDPACK={default:{type:"sine",mult:1},piano:{type:"triangle",mult:1},drops:{type:"sine",mult:1.4},scifi:{type:"sawtooth",mult:1.2}};
+function tone(f,dur,type,vol,when){const a=ac();if(!a||!S.sound)return;const o=a.createOscillator(),g=a.createGain();
+  o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0.0001,a.currentTime+(when||0));
+  g.gain.exponentialRampToValueAtTime(vol||0.15,a.currentTime+(when||0)+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,a.currentTime+(when||0)+dur);
+  o.connect(g).connect(a.destination);o.start(a.currentTime+(when||0));o.stop(a.currentTime+(when||0)+dur+0.05)}
+function click(kind){const p=SNDPACK[S.owned["snd"]||"default"]||SNDPACK.default;
+  const base={def:520,mech:340,coin:880,cam:700,wave:440,ok:660,bad:180,win:520}[kind||"def"]||520;
+  if(kind==="ok"){[660,830,990].forEach((f,i)=>tone(f*p.mult,0.16,p.type,0.16,i*0.09));return}
+  if(kind==="bad"){tone(200,0.22,"square",0.12);tone(150,0.3,"square",0.1,0.1);return}
+  if(kind==="win"){[523,659,784,1046].forEach((f,i)=>tone(f,0.22,"triangle",0.16,i*0.13));return}
+  if(kind==="coin"){tone(990,0.08,p.type,0.12);tone(1320,0.12,p.type,0.1,0.07);return}
+  tone(base*p.mult,0.07,p.type,0.12)}
+document.addEventListener("pointerdown",e=>{const b=e.target.closest("button,.switch,.node,.zpill");if(b){click(b.dataset.snd||"def")}},true);
+function speak(txt,lang){if(!S.voice||!("speechSynthesis" in window))return;try{speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(txt);u.lang=lang==="ar"?"ar-SA":(lang==="en"?"en-US":lang);u.rate=1.05;speechSynthesis.speak(u)}catch(e){}}
+/* ============ Content banks (Syrian curriculum flavor) ============ */
+const AR_WORDS="مدرسة قلم كتاب شمس قمر باب بيت ماء نار حديد سماء نجوم بحر جبل شجرة زهرة عصفور حصان جميل سعيد كبير صغير جديد قديم طويل قصير سريع بطيء عامل معلم طالب قارئة فتاة ولد بنت أخ أخت أب أم".split(" ");
+const AR_SPELL=[["الإمتحان","الامتحان"],["لاكن","لكن"],["الذى","الذي"],["هاذا","هذا"],["اللذي","الذي"],["شئ","شيء"],["الشئ","الشيء"],["مسئول","مسؤول"],["إنشاء الله","إن شاء الله"],["إجتماع","اجتماع"],["إستخدام","استخدام"],["إنطلاق","انطلاق"],["بأذن الله","بإذن الله"],["إستقبال","استقبال"],["القرأن","القرآن"],["سئال","سؤال"],["رئية","رؤية"],["مسالة","مسألة"],["شاطى","شاطئ"]];
+const AR_SYN=[["جميل","جميل"],["سعيد","فرح"],["كبير","ضخم"],["صغير","دقيق"],["سريع","عاجل"],["غاضب","غاضب"],["شجاع","شجاع"],["خطر","خطر"],["ذكي","ذكي"],["صعب","عسير"],["سهل","ميسور"],["قوي","متين"],["ضعيف","واهن"],["جميل","بهي"],["حزين","كئيب"],["طويل","ممتد"],["قصير","موجز"],["جديد","حديث"],["قديم","عتيق"],["نافع","مفيد"],["بديع","خلاب"],["واسع","رحب"],["ضيق","محصور"],["واضح","جلي"],["غامض","مشوش"],["ثابت","راسخ"],["كريم","جواد"],["بخيل","شحيح"],["صادق","أمين"],["كذاب","فاجر"]];
+const AR_ANT=[["كبير","صغير"],["طويل","قصير"],["سريع","بطيء"],["سعيد","حزين"],["جديد","قديم"],["قوي","ضعيف"],["سهل","صعب"],["واسع","ضيق"],["بياض","سواد"],["علو","انخفاض"],["أمام","خلف"],["فوق","تحت"],["يوم","ليل"],["صيف","شتاء"],["أول","آخر"],["حياة","موت"],["عدل","ظلم"],["صدق","كذب"],["كريم","بخيل"],["شجاع","جبان"],["نور","ظلام"],["قريب","بعيد"],["كثير","قليل"],["بداية","نهاية"]];
+const AR_POS_NOUN="مدرسة قلم شمس قمر كتاب شجرة بنت ولد بحر جبل نجوم طائر حديقة سيارة قصة".split(" ");
+const AR_POS_VERB="يكتب يقرأ يلعب يدرس يذهب يشرب يأكل يسمع يرى يفهم يعمل يسافر يزرع يبني يفتح".split(" ");
+const EN_VOCAB=[["school","مدرسة"],["book","كتاب"],["pen","قلم"],["teacher","معلم"],["student","طالب"],["water","ماء"],["sun","شمس"],["moon","قمر"],["star","نجمة"],["tree","شجرة"],["bird","عصفور"],["house","بيت"],["door","باب"],["window","نافذة"],["friend","صديق"],["family","عائلة"],["mother","أم"],["father","أب"],["sister","أخت"],["brother","أخ"],["apple","تفاحة"],["bread","خبز"],["milk","حليب"],["city","مدينة"],["village","قرية"],["river","نهر"],["sea","بحر"],["mountain","جبل"],["flower","زهرة"],["car","سيارة"],["road","طريق"],["hand","يد"],["eye","عين"],["ear","أذن"],["heart","قلب"],["head","رأس"],["happy","سعيد"],["sad","حزين"],["big","كبير"],["small","صغير"],["hot","حار"],["cold","بارد"],["new","جديد"],["old","قديم"],["fast","سريع"],["slow","بطيء"],["beautiful","جميل"],["strong","قوي"],["read","يقرأ"],["write","يكتب"],["play","يلعب"],["eat","يأكل"],["drink","يشرب"],["sleep","ينام"],["run","يجري"],["walk","يمشي"],["red","أحمر"],["blue","أزرق"],["green","أخضر"],["yellow","أصفر"],["black","أسود"],["white","أبيض"],["morning","صباح"],["evening","مساء"],["night","ليل"],["day","يوم"],["week","أسبوع"],["month","شهر"],["year","سنة"],["rain","مطر"],["wind","ريح"],["cloud","سحابة"],["fire","نار"],["air","هواء"],["earth","أرض"],["sky","سماء"],["doctor","طبيب"],["engineer","مهندس"],["farm","مزرعة"],["market","سوق"],["money","مال"],["work","عمل"],["question","سؤال"],["answer","جواب"],["lesson","درس"],["story","قصة"],["song","أغنية"],["game","لعبة"],["language","لغة"],["word","كلمة"],["letter","حرف"],["number","رقم"],["color","لون"],["animal","حيوان"],["food","طعام"],["time","وقت"],["hour","ساعة"],["minute","دقيقة"],["second","ثانية"],["light","ضوء"],["dark","مظلم"],["near","قريب"],["far","بعيد"]];
+const EN_PLURAL=[["book","books"],["child","children"],["man","men"],["woman","women"],["tooth","teeth"],["foot","feet"],["mouse","mice"],["box","boxes"],["city","cities"],["leaf","leaves"],["knife","knives"],["fish","fish"],["sheep","sheep"],["person","people"],["story","stories"],["baby","babies"],["day","days"],["class","classes"],["bus","buses"],["hero","heroes"],["wolf","wolves"],["life","lives"],["country","countries"],["family","families"]];
+const EN_VOWEL_NOUNS=["apple","orange","egg","umbrella","elephant","ice","owl","island","arm","eye","hour"];
+const EN_CONS_NOUNS=["book","car","dog","house","pen","tree","star","moon","cat","bird","school","friend","table","chair"];
+const EN_SUBJECTS=[["He","is"],["She","is"],["It","is"],["I","am"],["They","are"],["We","are"],["You","are"],["The boys","are"],["The girl","is"],["My father","is"],["The teachers","are"],["My friend","is"]];
+const SCIENCE=[["ما العضو المسؤول عن ضخ الدم في الجسم؟","القلب",["الكبد","الرئة","المعدة"]],
+["ما الغاز الذي نتنفسه للحياة؟","الأكسجين",["النيتروجين","ثاني أكسيد الكربون","الهيليوم"]],
+["كم عدد كواكب المجموعة الشمسية؟","ثمانية",["تسعة","سبعة","عشرة"]],
+["ما أقرب كوكب إلى الشمس؟","عطارد",["الزهرة","الأرض","المريخ"]],
+["ما أكبر كوكب في المجموعة الشمسية؟","المشتري",["زحل","الأرض","نبتون"]],
+["ما المصدر الرئيسي للطاقة على الأرض؟","الشمس",["القمر","الفحم","الرياح"]],
+["ما الحالة التي يتحول إليها الماء عند درجة صفر مئوية؟","حالة صلبة (جليد)",["حالة غازية","حالة سائلة","بلازما"]],
+["ما الحالة التي يتحول إليها الماء عند الغليان؟","حالة غازية (بخار)",["حالة صلبة","حالة سائلة","لا يتغير"]],
+["ما وحدة قياس القوة؟","نيوتن",["جول","واط","أمبير"]],
+["ما وحدة قياس الطاقة؟","جول",["نيوتن","واط","كلفن"]],
+["ما وحدة قياس شدة التيار الكهربائي؟","أمبير",["فولت","أوم","واط"]],
+["ما النبات الذي يُستخرج منه السكر الأبيض في سوريا؟" ,"بنجر السكر",["القطن","الزيتون","القمح"]],
+["ما أسرع الحيوانات على اليابسة؟","الفهد",["الأسد","الحصان","الغزال"]],
+["ما الحيوان الذي يُسمى سفينة الصحراء؟","الجمل",["الحصان","الفيل","الحمار"]],
+["ما اسم عملية صنع الغذاء في النبات؟" ,"التركيب الضوئي",["التنفس","النتح","الامتصاص"]],
+["ما الغاز الذي تطلقه النباتات في التركيب الضوئي؟" ,"الأكسجين",["ثاني أكسيد الكربون","النيتروجين","الهيدروجين"]],
+["كم عدد عظام جسم الإنسان البالغ؟" ,"206",["300","150","250"]],
+["ما أقسى مادة في جسم الإنسان؟" ,"مينا الأسنان",["العظم","الغضروف","الشعر"]],
+["ما الحيوان الذي يتنفس بالخياشيم؟" ,"السمك",["القط","العصفور","الأرنب"]],
+["ما الحيوان الذي يتنفس بالرئتين ويعيش في الماء؟" ,"الدلفين",["السمكة","السلطعون","الضفدع"]],
+["ما رمز الماء الكيميائي؟" ,"H2O",["CO2","O2","NaCl"]],
+["ما رمز غاز الأكسجين؟" ,"O2",["H2","CO2","N2"]],
+["ما اسم أصغر وحدة بناء في الكائن الحي؟" ,"الخلية",["النسيج","الذرة","الجزيء"]],
+["ما الجهاز المسؤول عن التنفس؟" ,"الجهاز التنفسي",["الجهاز الهضمي","الجهاز العصبي","الجهاز الدوري"]],
+["ما العضو المسؤول عن التنفس؟" ,"الرئتان",["الكبد","المعدة","الكلية"]],
+["ما الحاسة المرتبطة بالأذن؟" ,"السمع",["البصر","الشم","التذوق"]],
+["ما مصدر الضوء الطبيعي الأهم؟" ,"الشمس",["المصباح","القمر","الشمعة"]],
+["كيف ينتقل الصوت؟" ,"موجات عبر الوسط",["بدون وسط","بالضوء فقط","بالرياح فقط"]],
+["ما المكان الذي تلتقي فيه الشوارد الموجبة والسالبة؟" ,"القطبان",["الموصل","المقاومة","المصباح"]],
+["ما اسم تحول الفتاح الصغير إلى فراشة؟" ,"التحول الكامل",["الطور الثابت","الانقسام","الإنبات"]],
+["ما الحيوان من فئة الزواحف؟" ,"الثعبان",["الضفدع","الحمام","الأسد"]],
+["ما الحيوان من فئة البرمائيات؟" ,"الضفدع",["الثعبان","السمانة","الدلفين"]],
+["ما الحيوان من فئة الثدييات؟" ,"الحوت",["القرش","السلحفاة","الضفدع"]],
+["ما الفضاء الذي يدور فيه القمر؟" ,"حول الأرض",["حول الشمس مباشرة","حول المريخ","لا يدور"]],
+["ما اسم المجرّة التي تقع فيها المجموعة الشمسية؟" ,"درب التبانه",["المجرة الحلزونية الكبرى","أندروميدا","سحابة ماجلان"]],
+["ما اسم أول رجل في الفضاء؟" ,"يوري غاغارين",["نيل أرمسترونغ","Buzz Aldrin","جون غلين"]],
+["ما اسم أول رائدة فضاء سورية؟" ,"محمد فارس",["إبراهيم حناني","بشار ممدوح","وليد العلي"]],
+["ما اسم الفاكهة الغنية بفيتامين C؟" ,"البرتقال",["الموز","التمر","البطاطا"]],
+["ما نوع التغذية عند النباتات الخضراء؟" ,"ذاتية الصنع",["متغذية بالحيوانات","متطفلة","رمية"]],
+["ما اسم العضو الذي يرشح الدم في الإنسان؟" ,"الكلية",["الكبد","الرئة","الطحال"]],
+["ما وحدة قياس درجة الحرارة؟" ,"الدرجة المئوية",["المتر","الكيلوغرام","الثانية"]],
+["ما اسم جهاز قياس درجة الحرارة؟" ,"الثيرمومتر",["البارومتر","الميزان","البوصلة"]],
+["ما اسم جهاز قياس الضغط الجوي؟" ,"البارومتر",["الثيرمومتر","الميزان","الشريط"]],
+["ما اسم ظاهرة هبوط المطر من السحاب؟" ,"التساقط",["التبخر","التصاعد","الانعكاس"]],
+["ما اسم تحول الماء من سائل إلى بخار؟" ,"التبخر",["التكاثف","التجمد","الذوبان"]],
+["ما اسم تحول بخار الماء إلى سائل؟" ,"التكاثف",["التبخر","التجمد","الانصهار"]],
+["ما اسم النجمة الأقرب إلى الأرض؟" ,"الشمس",["سيريوس","الجوزاء","القطب"]],
+["ما لون الشمس الحقيقي؟" ,"أبيض",["أصفر","أحمر","أزرق"]],
+["ما اسم الكوكب الأحمر؟" ,"المريخ",["الزهرة","عطارد","زحل"]],
+["لماذا يُسمى كوكب المريخ بالكوكب الأحمر؟" ,"لأن ترابه غني بأكسيد الحديد",["لأنه قريب من الشمس","لأنه بارد جدًا","لأنه فيه ماء أحمر"]],
+["ما اسم أصغر كوكب في المجموعة الشمسية؟" ,"عطارد",["المريخ","الزهرة","نبتون"]],
+["ما اسم الكوكب الذي يُسمى الكوكب الأزرق؟" ,"الأرض",["نبتون","أورانوس","زحل"]],
+["ما اسم أكبر قمر لزحل؟" ,"تيتان",["القمر","أوروبا","غانيميد"]],
+["ما اسم الكوكب ذي الحلقات الشهيرة؟" ,"زحل",["المشتري","أورانوس","نبتون"]],
+["كم عدد ألاسنان الإنسان البالغ؟" ,"32",["28","36","24"]],
+["ما اسم العضو الذي ينتج الأنسولين؟" ,"البنكرياس",["الكبد","الكلية","الطحال"]],
+["ما نوع الدم الذي يُسمى المانح العام؟" ,"O-",["AB+","A+","B-"]],
+["ما اسم العضو المسؤول عن التفكير والذاكرة؟" ,"الدماغ",["القلب","الكبد","الرئة"]],
+["ما اسم أكبر عضو في جسم الإنسان؟" ,"الجلد",["الكبد","الرئة","الدماغ"]],
+["ما اسم العضو الذي يخزن الصفراء؟" ,"المرارة",["الكبد","المعدة","الكلية"]],
+["ما اسم أصغر عظمة في جسم الإنسان؟" ,"الركاب في الأذن",["الفخذ","الضلع","الجمجمة"]],
+["ما اسم أطول عظمة في جسم الإنسان؟" ,"عظمة الفخذ",["عظمة الساق","الضلع","العضد"]],
+["ما اسم الغاز الذي يسبب الاحتباس الحراري؟" ,"ثاني أكسيد الكربون",["الأكسجين","النيتروجين","الهيليوم"]],
+["ما اسم ظاهرة ارتفاع حرارة الأرض؟" ,"الاحتباس الحراري",["التصحر","الفيضان","الزلزال"]],
+["ما اسم أكبر صحراء حارة في العالم؟" ,"الصحراء الكبرى",["صحراء الشام","صحراء النقب","صحراء غوبي"]],
+["ما اسم أكبر محيط في العالم؟" ,"المحيط الهادئ",["الأطلسي","الهندي","المتجمد الشمالي"]],
+["ما اسم أعمق نقطة في المحيطات؟" ,"خندق ماريانا",["البحر الميت","خليج عمان","البحر الأحمر"]],
+["ما اسم أخفض نقطة على سطح الأرض؟" ,"البحر الميت",["قناة السويس","وادي الأردن","خليج العقبة"]],
+["ما اسم أطول نهر في العالم؟" ,"النيل",["الأمازون","الفرات","الدانوب"]],
+["ما اسم أطول نهر في سوريا؟" ,"الفرات",["العاصي","البردان","اليبرود"]],
+["ما اسم أعلى قمة في سوريا؟" ,"جبل الشيخ",["جبل عبد العزيز","جبل الحلب","جبل العرب"]],
+["ما اسم أعلى قمة في العالم؟" ,"إفرست",["كِلمنجارو","الألب","توباز"]],
+["ما اسم أكبر محيط ملحي؟" ,"البحر الميت",["البحر الأحمر","المحيط الهادئ","البحر الأسود"]],
+["ما اسم أصغر دولة في العالم؟" ,"الفاتيكان",["موناكو","لبنان","قطر"]],
+["ما اسم أكبر دولة في العالم مساحة؟" ,"روسيا",["الصين","كندا","أمريكا"]],
+["ما اسم أكبر دولة عربية مساحة؟" ,"الجزائر",["السعودية","السودان","ليبيا"]],
+["ما اسم أكبر دولة عربية سكانًا؟" ,"مصر",["العراق","السودان","المغرب"]],
+["ما اسم عاصمة سوريا؟" ,"دمشق",["حلب","حمص","اللاذقية"]],
+["ما اسم عاصمة مصر؟" ,"القاهرة",["الإسكندرية","الأقصر","أسوان"]],
+["ما اسم عاصمة الأردن؟" ,"عمّان",["الزرقاء","إربد","العقبة"]],
+["ما اسم عاصمة لبنان؟" ,"بيروت",["طرابلس","صيدا","بعلبك"]],
+["ما اسم عاصمة العراق؟" ,"بغداد",["البصرة","الموصل","أربيل"]],
+["ما اسم عاصمة السعودية؟" ,"الرياض",["جدة","مكة","الدمام"]],
+["ما اسم أقدم مدينة مأهولة في العالم؟" ,"دمشق",["أثينا","روما","القاهرة"]],
+["ما اسم مدينة سوريا المعروفة بالصناعة التقليدية؟" ,"دمشق",["حمص","درعا","إدلب"]],
+["ما اسم مدينة سوريا المعروفة بالقلعة؟" ,"حلب",["طرطوس","رقة","دير الزور"]],
+["ما اسم مدينة سوريا الساحلية الرئيسية؟" ,"اللاذقية",["حماة","السويداء","الرقة"]],
+["ما اسم البحر الذي يغسل شاطئ سوريا؟" ,"البحر المتوسط",["البحر الأحمر","البحر الأسود","الخليج"]],
+["ما اسم المضيق الذي يفصل آسيا عن أوروبا؟" ,"البوسفور",["جبل طارق","هرمز","باب المندب"]],
+["ما اسم القارة التي تقع فيها سوريا؟" ,"آسيا",["أوروبا","أفريقيا","أستراليا"]],
+["كم عدد قارات العالم؟" ,"7",["5","6","8"]],
+["ما اسم أكبر قارة في العالم؟" ,"آسيا",["أفريقيا","أوروبا","أمريكا الشمالية"]],
+["ما اسم أصغر قارة في العالم؟" ,"أستراليا",["أوروبا","أنتاركتيكا","أمريكا الجنوبية"]],
+["ما اسم أكبر محيط مالح؟" ,"المحيط الهادئ",["الأطلسي","الهندي","المتجمد الجنوبي"]],
+["ما اسم الفيضان الذي يحدث بسبب أمطار غزيرة؟" ,"فيضان",["زلزال","بركان","تسونامي"]],
+["ما اسم الموجة البحرية الضخمة الناتجة عن زلزال؟" ,"تسونامي",["إعصار","إعصار ثلجي","عاصفة رملية"]],
+["ما اسم الدوامة الهوائية القوية؟" ,"الإعصار",["التسونامي","الزلزال","البركان"]],
+["ما اسم الجهاز الذي يقيس الزلازل؟" ,"السيزموغراف",["البارومتر","الثيرمومتر","البوصلة"]],
+["ما اسم الظاهرة التي تحدث عند مرور الضوء في الماء؟" ,"الانكسار",["الانعكاس","الامتصاص","الانتشار"]],
+["ما اسم الأداة لتكبير الصور الصغيرة؟" ,"المجهر",["التلسكوب","البوصلة","البارومتر"]],
+["ما اسم الأداة لرؤية النجوم؟" ,"التلسكوب",["المجهر","المنظار","الشريط"]]];
+const ANIMALS=[["الأسد","ثديي"],["القط","ثديي"],["الحصان","ثديي"],["الجمل","ثديي"],["الحوت","ثديي"],["الدلفين","ثديي"],["الخفاش","ثديي"],["الحمام","طائر"],["العصفور","طائر"],["النسر","طائر"],["البطة","طائر"],["الدجاجة","طائر"],["السلحفاة","زاحف"],["الثعبان","زاحف"],["التمساح","زاحف"],["السحلية","زاحف"],["الضفدع","برمائي"],["السمكة","سمك"],["القرش","سمك"],["الفراشة","حشرة"],["النحلة","حشرة"],["النملة","حشرة"],["البعوضة","حشرة"],["العنكبوت","حشرة"]];
+const GEO_CAP=[["سوريا","دمشق"],["مصر","القاهرة"],["الأردن","عمّان"],["لبنان","بيروت"],["العراق","بغداد"],["السعودية","الرياض"],["قطر","الدوحة"],["الكويت","الكويت"],["الإمارات","أبوظبي"],["عمان","مسقط"],["اليمن","صنعاء"],["المغرب","الرباط"],["الجزائر","الجزائر"],["تونس","تونس"],["ليبيا","طرابلس"],["السودان","الخرطوم"],["موريتانيا","نواكشوط"],["الصومال","مقديشو"],["تركيا","أنقرة"],["إيران","طهران"],["فرنسا","باريس"],["بريطانيا","لندن"],["ألمانيا","برلين"],["إيطاليا","روما"],["إسبانيا","مدريد"],["روسيا","موسكو"],["الصين","بكين"],["اليابان","طوكيو"],["الهند","نيودلهي"],["أمريكا","واشنطن"],["كندا","أوتاوا"],["البرازيل","برازيليا"],["الأرجنتين","بوينس آيرس"],["أستراليا","كانبرا"],["فلسطين","القدس"],["الكويت","مدينة الكويت"],["البحرين","المنامة"],["عُمان","مسقط"],["الشام","دمشق"],["قطر","الدوحة"]];
+const GEO_FACTS=[["ما أكبر دولة عربية بالمساحة؟","الجزائر",["السعودية","ليبيا","السودان"]],
+["ما أكبر دولة عربية بالسكان؟","مصر",["العراق","السودان","المغرب"]],
+["ما أصغر دولة عربية بالمساحة؟","البحرين",["لبنان","قطر","الكويت"]],
+["ما اسم القارة التي تقع فيها سوريا؟","آسيا",["أوروبا","أفريقيا","أستراليا"]],
+["كم عدد قارات العالم؟","7",["5","6","8"]],
+["ما أكبر محيط في العالم؟","الهادئ",["الأطلسي","الهندي","المتجمد الشمالي"]],
+["ما أطول نهر في العالم؟","النيل",["الأمازون","الفرات","الدانوب"]],
+["ما أطول نهر في سوريا؟","الفرات",["العاصي","البردان","الخابور"]],
+["ما أعلى قمة في سوريا؟","جبل الشيخ",["جبل العرب","جبل الحلوة","جبل الزاوية"]],
+["ما البحر الذي يطل عليه سوريا؟","المتوسط",["الأحمر","الأسود","الخليج العربي"]],
+["ما أصغر محيط؟","المتجمد الشمالي",["الهادئ","الأطلسي","الهندي"]],
+["ما أكبر صحراء حارة؟","الصحراء الكبرى",["الشامية","الربع الخالي","غوبي"]],
+["ما اسم شبه الجزيرة التي تقع فيها سوريا؟","الشام",["جزيرة العرب","آسيا الصغرى","الجزيرة الفارسية"]],
+["ما اسم البحر المالح جدًا الذي لا تغرق فيه السفن؟","البحر الميت",["البحر الأحمر","البحر الأسود","البحر الأبيض"]],
+["ما اسم أكبر بحيرة في سوريا؟","بحيرة الأسد",["بحيرة قطينة","بحيرة المزة","بحيرة الخاتونية"]],
+["ما اسم أكبر جزيرة في العالم؟","غرينلاند",["مدغشقر","بورنيو","سريلانكا"]],
+["ما اسم أكبر غابة في العالم؟","الأمازون",["التايغا","الغابة السوداء","غابة الكونغو"]],
+["ما اسم أخفض نقطة على سطح الأرض؟","البحر الميت",["وادي الأردن","قناة السويس","خليج العقبة"]],
+["ما اسم الخط الذي يفصل الأرض إلى نصفين شمالي وجنوبي؟","خط الاستواء",["خط غرينتش","مدار السرطان","مدار الجدي"]],
+["ما اسم الخط الذي يمر بغرينتش؟","خط الطول الرئيسي",["خط الاستواء","مدار السرطان","الدائرة القطبية"]],
+["كم عدد الألوان في قوس قزح؟","7",["5","6","8"]],
+["ما اسم أكبر مدينة عربية؟","القاهرة",["بغداد","الرياض","دمشق"]],
+["ما اسم أصغر دولة في العالم؟","الفاتيكان",["موناكو","قطر","البحرين"]],
+["ما اسم أكبر دولة في العالم بالسكان؟","الهند",["الصين","أمريكا","إندونيسيا"]],
+["ما اسم أكبر دولة في العالم بالمساحة؟","روسيا",["كندا","الصين","أمريكا"]],
+["ما اسم دولة عربية تقع في قارتين؟","مصر",["المغرب","السودان","الجزائر"]],
+["ما اسم المضيق الفاصل بين آسيا وأوروبا؟","البوسفور",["جبل طارق","هرمز","باب المندب"]],
+["ما اسم القناة الفاصلة بين مصر وآسيا؟","قناة السويس",["قناة بنما","مضيق هرمز","قناة القرن"]],
+["ما اسم أكبر شبه جزيرة في العالم؟","جزيرة العرب",["شبه جزيرة الهند","شبه جزيرة إيبيريا","شبه جزيرة كوريا"]],
+["ما اسم أعلى قمة في العالم؟","إفرست",["كلمنجارو","مون بلان","دنالي"]]];
+const HIST=[["في أي عام وقعت معركة حطين؟","1187م",["1099م","1258م","1453م"]],
+["من قاد معركة حطين؟","صلاح الدين الأيوبي",["نور الدين محمود","الظاهر بيبرس","قطز"]],
+["في أي عام فتح المسلمون القدس؟","637م",["622م","632م","661م"]],
+["من هو الخليفة الذي فتح القدس؟","عمر بن الخطاب",["أبو بكر","عثمان","علي"]],
+["في أي عام كانت معركة عين جالوت؟","1260م",["1187م","1258م","1299م"]],
+["من قاد المسلمين في عين جالوت؟","قطز",["بيبرس","صلاح الدين","هارون الرشيد"]],
+["ما اسم أول حضارة سكنت سوريا؟" ,"الآراميون والكنعانيون وغيرهم",["الرومان","الأتراك","الفارس"]],
+["ما اسم الأبجدية التي ابتكرها الآراميون في سوريا؟" ,"الأبجدية الآرامية",["الهيروغليفية","السومرية","اللاتينية"]],
+["ما اسم مدينة سوريا الأثرية الشهيرة بالأعمدة؟" ,"تدمر",["أوغاريت","إبلا","دور أوروبوس"]],
+["ما اسم مملكة سورية القديمة اكتُشفت فيها أقدم ألواح موسيقية؟" ,"أوغاريت",["تدمر","بصرى","حلب"]],
+["ما اسم الحضارة التي بنت مدينة إبلا؟" ,"الكنعانية",["الآشورية","البابلية","الرومانية"]],
+["في أي عام استقلت سوريا؟" ,"1946",["1920","1936","1958"]],
+["من هو المؤسس الحقيقي للدولة السورية الحديثة؟" ,"الهاشمي الأتاسي وسعد الله الجابري ورفاقهما",["فرنسا","العثمانيون","البريطانيون"]],
+["ما اسم الدولة التي احتلت سوريا بعد الحرب العالمية الأولى؟" ,"فرنسا",["بريطانيا","روسيا","إيطاليا"]],
+["في أي عام وقعت معركة ميسلون؟" ,"1920",["1918","1925","1946"]],
+["من قاد معركة ميسلون؟" ,"يوسف العظمة",["حنيذة","صلاح الدين","إبراهيم هنانو"]],
+["ما اسم الثورة السورية الكبرى ضد الفرنسيين؟" ,"ثورة العشرين (1925)",["ثورة 1916","ثورة 1936","ثورة 1945"]],
+["من قاد الثورة السورية الكبرى؟" ,"سلطان الأطرش",["إبراهيم هنانو","يوسف العظمة","فوزي القاوقجي"]],
+["من هو صانع أول علم سوري؟" ,"ثورة العرب في الحجاز",["الفرنسيون","العثمانيون","البريطانيون"]],
+["ما اسم أول جامعة في سوريا؟" ,"جامعة دمشق",["جامعة حلب","جامعة تشرين","جامعة البعث"]],
+["في أي قرن وُلد النبي محمد ﷺ؟" ,"القرن السادس الميلادي",["القرن الخامس","القرن السابع","القرن الثامن"]],
+["في أي عام كانت الهجرة النبوية؟" ,"622م",["610م","632م","661م"]],
+["كم استمرت الدولة العباسية؟" ,"من 750م إلى 1258م",["من 661م إلى 750م","من 1258م إلى 1516م","من 1516م إلى 1918م"]],
+["من هو القائد الذي فتح الأندلس؟" ,"طارق بن زياد",["موسى بن نصير","عقبة بن نافع","خالد بن الوليد"]],
+["ما اسم أول معركة في الإسلام؟" ,"بدر",["أحد","الخندق","حنين"]],
+["في أي عام كانت معركة بدر؟" ,"624م (سنة 2 هجرية)",["622م","626م","630م"]],
+["من هو القائد المسلم الذي لُقب بسيف الله المسلول؟" ,"خالد بن الوليد",["سعد بن أبي وقاص","عمرو بن العاص","أبو عبيدة"]],
+["ما اسم أول دار إسلام في التاريخ؟" ,"دار النبوة في مكة (دار الأرقم)",["المسجد النبوي","الكعبة","دار السلام"]],
+["من هو الخليفة الراشد الأول؟" ,"أبو بكر الصديق",["عمر","عثمان","علي"]],
+["كم عدد الخلفاء الراشدين؟" ,"4",["3","5","6"]],
+["ما اسم أعظم علماء المسلمين في الطب؟" ,"ابن سينا",["الرازي","البيروني","الخوارزمي"]],
+["من هو صاحب كتاب (القانون في الطب)؟" ,"ابن سينا",["الرازي","ابن النفيس","ابن رشد"]],
+["من هو عالم الرياضيات الذي صاغ علم الجبر؟" ,"الخوارزمي",["ابن الهيثم","البيروني","ابن سينا"]],
+["من هو عالم الفيزياء الذي وصف قوانين الضوء؟" ,"ابن الهيثم",["الخوارزمي","الرازي","الكندي"]],
+["في أي عام سقطت الدولة العثمانية؟" ,"1922",["1918","1926","1930"]],
+["في أي عام بدأت الحرب العالمية الأولى؟" ,"1914",["1912","1916","1918"]],
+["في أي عام انتهت الحرب العالمية الثانية؟" ,"1945",["1939","1942","1948"]],
+["من هو مخترع المصباح الكهربائي؟" ,"إديسون",["فولتا","ماركوني","نيوتن"]],
+["من هو مخترع الهاتف؟" ,"غراهام بيل",["إديسون","مارسكوني","تسلا"]],
+["من هو عالم اكتشف قانون الجاذبية؟" ,"نيوتن",["أينشتاين","غاليليو","أرخميدس"]],
+["من هو العالم الذي وضع نظرية النسبية؟" ,"أينشتاين",["نيوتن","بور","بلانك"]],
+["من هو أول من صعد إلى الفضاء؟" ,"يوري غاغارين",["نيل أرمسترونغ","ألان شيبرد","جون غلين"]],
+["في أي عام هبط الإنسان على القمر؟" ,"1969",["1961","1965","1972"]],
+["ما اسم أول امرأة مسلمة حكمت؟" ,"شجر الدر",["خديجة","عائشة","زينب"]],
+["ما اسم أعظم قلعة في سوريا بناها الصليبيون ثم استخدمها المسلمون؟" ,"قلعة الحصن",["قلعة حلب","قلعة صلاح الدين","قلعة المرقب"]],
+["ما اسم أول مطبعة في سوريا؟" ,"مطبعة اليتيم في بيروت (سوريا الكبرى)",["مطبعة دمشق","مطبعة حلب","مطبعة حمص"]]];
+const ISLAM=[["كم عدد أركان الإسلام؟","5",["4","6","7"]],
+["كم عدد الصلوات المفروضة في اليوم؟","5",["3","4","6"]],
+["ما اسم الشهر الذي نصوم فيه؟","رمضان",["شوال","رجب","محرم"]],
+["كم عدد ركعات صلاة المغرب؟","3",["2","4","5"]],
+["كم عدد ركعات صلاة العشاء؟","4",["2","3","5"]],
+["كم عدد ركعات صلاة الفجر؟","2",["3","4","5"]],
+["كم عدد ركعات صلاة الظهر؟","4",["2","3","5"]],
+["كم عدد ركعات صلاة العصر؟","4",["2","3","5"]],
+["ما اسم الركن الخامس من أركان الإسلام؟","حج البيت",["الصلاة","الصيام","الزكاة"]],
+["ما اسم الركن الأول من أركان الإسلام؟","شهادتا التوحيد",["الصلاة","الزكاة","الصيام"]],
+["كم عدد أركان الإيمان؟","6",["5","7","8"]],
+["ما اسم أطول سورة في القرآن؟","البقرة",["آل عمران","النساء","المائدة"]],
+["ما اسم أقصر سورة في القرآن؟","الكوثر",["الإخلاص","الفاتحة","الناس"]],
+["كم عدد سور القرآن؟","114",["110","120","100"]],
+["كم عدد أجزاء القرآن؟","30",["20","40","60"]],
+["ما اسم السورة التي تُسمى قلب القرآن؟","يس",["الرحمن","الكهف","الفاتحة"]],
+["ما اسم السورة الأولى في القرآن؟","الفاتحة",["البقرة","الناس","الإخلاص"]],
+["ما اسم السورة الأخيرة في ترتيب المصحف؟","الناس",["الفلق","العصر","الكافرون"]],
+["ما اسم النبي الذي بنا السفينة؟","نوح عليه السلام",["إبراهيم","موسى","يوسف"]],
+["ما اسم النبي الذي أُوتي التوراة؟","موسى عليه السلام",["عيسى","داود","سليمان"]],
+["ما اسم النبي الذي أُوتي الإنجيل؟","عيسى عليه السلام",["موسى","داود","إبراهيم"]],
+["ما اسم النبي الذي أُوتي الزبور؟","داود عليه السلام",["سليمان","موسى","هود"]],
+["ما اسم النبي الذي بُني له الكعبة مع ابنه؟","إبراهيم عليه السلام",["إسماعيل","إسحاق","يعقوب"]],
+["كم عدد الحجاج في الطواف حول الكعبة؟","7 أشواط",["3 أشواط","5 أشواط","10 أشواط"]],
+["ما اسم الوضوء الواجبات؟","4",["3","5","6"]],
+["ما اسم أول مسجد بُني في الإسلام؟","مسجد قباء",["المسجد الحرام","المسجد النبوي","المسجد الأقصى"]],
+["ما اسم قِبلة المسلمين الأولى؟","بيت المقدس",["الكعبة","المسجد النبوي","جبل عرفة"]],
+["ما اسم العيد الذي يأتي بعد رمضان؟","عيد الفطر",["عيد الأضحى","رأس السنة","المولد"]],
+["ما اسم العيد الذي يصادف يوم الحج؟","عيد الأضحى",["عيد الفطر","رأس السنة الهجرية","الإسراء"]],
+["ما اسم الزكاة المفروضة على المال؟","زكاة المال",["الفطر","العشر","الخراج"]]];
+const PLANETS=["عطارد","الزهرة","الأرض","المريخ","المشتري","زحل","أورانوس","نبتون"];
+const AR_NUM_WORDS=["صفر","واحد","اثنان","ثلاثة","أربعة","خمسة","ستة","سبعة","ثمانية","تسعة","عشرة"];
+const ONES=["","واحد","اثنان","ثلاثة","أربعة","خمسة","ستة","سبعة","ثمانية","تسعة"];
+const TEENS=["عشرة","أحد عشر","اثنا عشر","ثلاثة عشر","أربعة عشر","خمسة عشر","ستة عشر","سبعة عشر","ثمانية عشر","تسعة عشر"];
+const TENS=["","عشرة","عشرون","ثلاثون","أربعون","خمسون","ستون","سبعون","ثمانون","تسعون"];
+const HUND=["","مئة","مئتان","ثلاثمئة","أربعمئة","خمسمئة","ستمئة","سبعمئة","ثمانمئة","تسعمئة"];
+function numToAr(n){n=Math.floor(n);if(n<10)return ONES[n];if(n<20)return TEENS[n-10];
+  if(n<100){const t=Math.floor(n/10),o=n%10;return o?ONES[o]+" و"+TENS[t]:TENS[t]}
+  if(n<1000){const h=Math.floor(n/100),r=n%100;let s=HUND[h];if(r)s+=" و"+numToAr(r);return s}
+  const th=Math.floor(n/1000),r=n%1000;let s;
+  if(th===1)s="ألف";else if(th===2)s="ألفان";else if(th<11)s=ONES[th]+" آلاف";else s=numToAr(th)+" ألفًا";
+  if(r)s+=" و"+numToAr(r);return s}
+const EN_NUM_WORDS=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty"];
+const EN_TENS=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function numToEn(n){if(n<20)return EN_NUM_WORDS[n];const t=Math.floor(n/10),o=n%10;return EN_TENS[t]+(o?"-"+EN_NUM_WORDS[o]:"")}
+/* ============ Question engine: 45,000 unique questions ============ */
+function hash(s){let h=5381;for(let i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0}return (h>>>0).toString(36)}
+let usedSet=null;function usedInit(){usedSet=new Set(S.used)}function markUsed(q){const h=hash(q);usedSet.add(h);S.used.push(h);if(S.used.length>60000)S.used=S.used.slice(-50000)}
+function isUsed(q){return usedSet.has(hash(q))}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const ri=(r,a,b)=>a+Math.floor(r()*(b-a+1));
+const pick=(r,arr)=>arr[Math.floor(r()*arr.length)];
+function shuffle(r,arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function mkQ(q,correct,wrongs,r){const opts=shuffle(r,[correct,...wrongs.slice(0,3)]);return{q,opts,a:opts.indexOf(correct)}}
+function numOpts(r,correct,spread){const s=new Set([correct]);let guard=0;
+  while(s.size<4&&guard++<60){let d=correct+(ri(r,1,spread)*(r()<.5?-1:1));if(d>=0&&!s.has(d))s.add(d)}
+  while(s.size<4)s.add(correct+s.size*7+1);
+  return shuffle(r,[...s])}
+function numQ(r,q,correct,spread){return{q,opts:numOpts(r,correct,spread).map(String),a:-1,_c:correct}}
+function finalize(o){if(o.a===-1)o.a=o.opts.indexOf(String(o._c));return o}
+const SUBJ_LIST=["math","arabic","english","science","geo","history","islam"];
+function subjectFor(level,idx){
+  if(level%10===0)return SUBJ_LIST[(idx*3+Math.floor(level/10))%SUBJ_LIST.length];
+  const pat=["math","arabic","english","science","math","geo","arabic","history","math","islam"];
+  return pat[(level-1+idx)%10]}
+const tierOf=l=>Math.min(9,Math.floor((l-1)/450));
+/* ---- Math ---- */
+const ARABIC_ALPHABET="ابتثجحخدذرزسشصضطظعغفقكلمنهوي".split("");
+function genMath(r,tier){
+  const kinds=tier<2?["add","sub","mul","cmp","miss","seq"]:tier<5?["add","sub","mul","div","cmp","miss","seq","word"]:["add","sub","mul","div","seq","word","eq","area","pct","pow","frac"];
+  const k=pick(r,kinds),M=[20,60,120,500,1000,5000,20000,100000,1000000,10000000][tier];
+  if(k==="add"){const a=ri(r,2,M),b=ri(r,2,M);return finalize(numQ(r,`كم يساوي ${a} + ${b} ؟`,a+b,Math.max(2,Math.floor((a+b)*0.15))+1))}
+  if(k==="sub"){let a=ri(r,5,M),b=ri(r,2,a);return finalize(numQ(r,`كم يساوي ${a} − ${b} ؟`,a-b,Math.max(2,Math.floor(a*0.15))+1))}
+  if(k==="mul"){const mx=tier<2?9:tier<4?12:tier<7?25:99;const a=ri(r,2,mx),b=ri(r,2,mx);return finalize(numQ(r,`كم يساوي ${a} × ${b} ؟`,a*b,Math.max(2,Math.floor(a*b*0.2))+1))}
+  if(k==="div"){const b=ri(r,2,12),c=ri(r,2,12),a=b*c;return finalize(numQ(r,`كم يساوي ${a} ÷ ${b} ؟`,c,3))}
+  if(k==="cmp"){const a=ri(r,1,M),b=ri(r,1,M);if(a===b)b=a+1;const big=Math.max(a,b);
+    return mkQ(`أي عدد أكبر: ${a} أم ${b} ؟`,String(big),[String(Math.min(a,b))],r)}
+  if(k==="miss"){const a=ri(r,2,Math.max(5,Math.floor(M/2))),c=ri(r,a+1,a+Math.max(5,Math.floor(M/2)));return finalize(numQ(r,`أكمل: ${a} + ...... = ${c}`,c-a,Math.max(2,Math.floor(c*0.12))+1))}
+  if(k==="seq"){const s=ri(r,1,20),d=ri(r,2,9);const arr=[s,s+d,s+2*d,s+3*d];return finalize(numQ(r,`ما العدد التالي في السلسلة: ${arr.join(" ، ")} ، ...... ؟`,s+4*d,d+2))}
+  if(k==="word"){const n=ri(r,3,12),p=ri(r,2,9);const tot=n*p;
+    const names=["قلم","كتاب","تفاحة","بالون","نجمة","زهرة"];
+    return finalize(numQ(r,`لديك ${n} ${pick(r,["صندوق","حقيبة","رفوف"])}، في كل واحد ${p} ${pick(r,names)}. كم المجموع؟`,tot,Math.max(2,Math.floor(tot*0.2))+1))}
+  if(k==="eq"){if(r()<.5){const x=ri(r,2,30),a=ri(r,1,40);return finalize(numQ(r,`أوجد قيمة x:  x + ${a} = ${x+a}`,x,4))}
+    else{const x=ri(r,2,12),a=ri(r,2,9);return finalize(numQ(r,`أوجد قيمة x:  ${a} × x = ${a*x}`,x,3))}}
+  if(k==="area"){const w=ri(r,2,20),h=ri(r,2,20);if(r()<.5)return finalize(numQ(r,`مستطيل عرضه ${w} سم وطوله ${h} سم. ما مساحته؟`,w*h,Math.max(3,Math.floor(w*h*0.25))+1));
+    return finalize(numQ(r,`مستطيل عرضه ${w} سم وطوله ${h} سم. ما محيطه؟`,2*(w+h),Math.max(3,Math.floor((w+h)*0.3))+1))}
+  if(k==="pct"){const p=pick(r,[10,20,25,50,75]),n=ri(r,2,20)*10;return finalize(numQ(r,`كم يساوي ${p}% من ${n} ؟`,Math.round(n*p/100),Math.max(2,Math.floor(n*0.1))+1))}
+  if(k==="pow"){const x=ri(r,2,15);return finalize(numQ(r,`كم يساوي ${x}² ؟`,x*x,Math.max(3,Math.floor(x*2))))}
+  if(k==="frac"){const d=ri(r,2,12),n1=ri(r,1,d-1),n2=ri(r,1,d-n1);
+    return finalize(numQ(r,`كم يساوي ${n1}/${d} + ${n2}/${d} ؟`,n1+n2,2))}}
+/* ---- Arabic ---- */
+function genArabic(r,tier){
+  const k=pick(r,["ltr","ltr","spell","syn","ant","pos","numw","madd","first"]);
+  if(k==="ltr"){const w=pick(r,AR_WORDS);return finalize(numQ(r,`كم عدد حروف كلمة «${w}» ؟`,w.length,2))}
+  if(k==="first"){const w=pick(r,AR_WORDS);const c=w[0];
+    const wrongs=shuffle(r,ARABIC_ALPHABET.filter(x=>x!==c)).slice(0,3);return mkQ(`بأي حرف تبدأ كلمة «${w}» ؟`,c,wrongs,r)}
+  if(k==="ltr2"){const i=ri(r,0,ARABIC_ALPHABET.length-2);return mkQ(`ما الحرف الذي يأتي بعد حرف «${ARABIC_ALPHABET[i]}» في الهجاء العربية؟`,ARABIC_ALPHABET[i+1],shuffle(r,ARABIC_ALPHABET.filter(x=>x!==ARABIC_ALPHABET[i+1])).slice(0,3),r)}
+  if(k==="spell"){const i=ri(r,0,AR_SPELL.length-1);const[bad,good]=AR_SPELL[i];
+    const wrongs=shuffle(r,AR_SPELL.filter((p,j)=>j!==i).map(p=>p[0])).slice(0,3);return mkQ("أي كلمة مكتوبة بشكل صحيح؟",good,wrongs,r)}
+  if(k==="syn"){const i=ri(r,0,AR_SYN.length-1);const[w,s]=AR_SYN[i];
+    const wrongs=shuffle(r,AR_SYN.filter((p,j)=>j!==i).map(p=>p[1])).slice(0,3);return mkQ(`ما مرادف كلمة «${w}» ؟`,s,wrongs,r)}
+  if(k==="ant"){const i=ri(r,0,AR_ANT.length-1);const[w,a]=AR_ANT[i];
+    const wrongs=shuffle(r,AR_ANT.filter((p,j)=>j!==i).map(p=>p[1])).slice(0,3);return mkQ(`ما مضاد كلمة «${w}» ؟`,a,wrongs,r)}
+  if(k==="pos"){const askVerb=r()<.5;const correct=askVerb?pick(r,AR_POS_VERB):pick(r,AR_POS_NOUN);
+    const wrongs=shuffle(r,askVerb?AR_POS_NOUN:AR_POS_VERB).slice(0,3);
+    return mkQ(askVerb?"أي الكلمات التالية فعل مضارع؟":"أي الكلمات التالية اسم؟",correct,wrongs,r)}
+  if(k==="numw"){const n=ri(r,1,tier<3?20:tier<6?99:999);const c=numToAr(n);
+    const wrongs=shuffle(r,[numToAr(n+1),numToAr(Math.max(0,n-1)),numToAr(n+ri(r,2,9))]).filter(x=>x!==c).slice(0,3);
+    return mkQ(`كيف يُكتب العدد ${n} بالكلمات؟`,c,wrongs,r)}
+  if(k==="madd"){const withA=AR_WORDS.filter(w=>w.includes("ا")),noA=AR_WORDS.filter(w=>!w.includes("ا"));
+    if(withA.length&&noA.length>=3)return mkQ("أي كلمة تحتوي على مدّ بالألف؟",pick(r,withA),shuffle(r,noA).slice(0,3),r)}
+  return genArabic(r,tier)}
+/* ---- English ---- */
+const EN_DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const EN_MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function genEnglish(r,tier){
+  const k=pick(r,["v1","v2","plural","numw","art","be","day","month"]);
+  if(k==="v1"||k==="v2"){const i=ri(r,0,EN_VOCAB.length-1);const[en,ar]=EN_VOCAB[i];
+    if(k==="v1"){const wrongs=shuffle(r,EN_VOCAB.filter((p,j)=>j!==i).map(p=>p[1])).slice(0,3);
+      return mkQ(`What is the meaning of "${en}" ?`,ar,wrongs,r)}
+    const wrongs=shuffle(r,EN_VOCAB.filter((p,j)=>j!==i).map(p=>p[0])).slice(0,3);
+    return mkQ(`ما معنى كلمة «${ar}» بالإنجليزية؟`,en,wrongs,r)}
+  if(k==="plural"){const i=ri(r,0,EN_PLURAL.length-1);const[s,p]=EN_PLURAL[i];
+    const wrongs=shuffle(r,EN_PLURAL.filter((q,j)=>j!==i).map(q=>q[1])).slice(0,3);return mkQ(`What is the plural of "${s}" ?`,p,wrongs,r)}
+  if(k==="numw"){const n=ri(r,1,20);const c=numToEn(n);
+    const wrongs=shuffle(r,[numToEn(n+1),numToEn(Math.max(0,n-1)),numToEn(n+2)]).filter(x=>x!==c).slice(0,3);
+    return mkQ(`Write ${n} in English:`,c,wrongs,r)}
+  if(k==="art"){const v=r()<.5;const w=v?pick(r,EN_VOWEL_NOUNS):pick(r,EN_CONS_NOUNS);const c=v?"an":"a";
+    return mkQ(`Choose: ....... ${w}`,c,["a","an","the","some"].filter(x=>x!==c),r)}
+  if(k==="be"){const i=ri(r,0,EN_SUBJECTS.length-1);const[sub,v]=EN_SUBJECTS[i];
+    const wrongs=["is","are","am","be"].filter(x=>x!==v).slice(0,3);return mkQ(`Complete: ${sub} ....... a student.`,v,wrongs,r)}
+  if(k==="day"){const i=ri(r,0,6);const c=EN_DAYS[(i+1)%7];
+    const wrongs=EN_DAYS.filter(d=>d!==c&&d!==EN_DAYS[i]).slice(0,3);return mkQ(`Which day comes after "${EN_DAYS[i]}" ?`,c,wrongs,r)}
+  if(k==="month"){const i=ri(r,0,11);const c=EN_MONTHS[(i+1)%12];
+    const wrongs=EN_MONTHS.filter(m=>m!==c&&m!==EN_MONTHS[i]).slice(0,3);return mkQ(`Which month comes after "${EN_MONTHS[i]}" ?`,c,wrongs,r)}}
+/* ---- Science / Geo / History / Islam ---- */
+function bankQ(r,bank,fallback){
+  const start=ri(r,0,bank.length-1);
+  for(let i=0;i<bank.length;i++){const item=bank[(start+i)%bank.length];
+    if(!isUsed(item[0]))return mkQ(item[0],item[1],item[2],r)}
+  return fallback(r)}
+function genScience(r,tier){
+  return bankQ(r,SCIENCE,rr=>{
+    const k=pick(rr,["animal","planet","conv","animal2"]);
+    if(k==="animal"){const a=pick(rr,ANIMALS);const wrongs=shuffle(rr,["ثديي","طائر","زاحف","برمائي","حشرة","سمك"].filter(x=>x!==a[1])).slice(0,3);
+      return mkQ(`إلى أي فئة ينتمي «${a[0]}» ؟`,a[1],wrongs,rr)}
+    if(k==="animal2"){const cls=pick(rr,["ثديي","طائر","زاحف"]);const right=ANIMALS.filter(a=>a[1]===cls),wrong=ANIMALS.filter(a=>a[1]!==cls);
+      return mkQ(`أي الحيوانات التالية «${cls}» ؟`,pick(rr,right)[0],shuffle(rr,wrong).slice(0,3),rr)}
+    if(k==="planet"){const i=ri(rr,0,PLANETS.length-2);return mkQ(`ما الكوكب الذي يأتي بعد «${PLANETS[i]}» في المجموعة الشمسية؟`,PLANETS[i+1],shuffle(rr,PLANETS.filter(p=>p!==PLANETS[i+1]&&p!==PLANETS[i])).slice(0,3),rr)}
+    const big=ri(rr,2,30),unit=pick(rr,["كيلومتر","كيلوغرام","ساعة"]);
+    const factor=unit==="كيلومتر"?1000:unit==="كيلوغرام"?1000:60;
+    const small=unit==="ساعة"?"دقيقة":"متر";
+    const smallName=unit==="كيلوغرام"?"غرام":small;
+    return finalize(numQ(rr,`كم ${smallName} في ${big} ${unit} ؟`,big*factor,Math.max(50,big*100)))})}
+function genGeo(r,tier){
+  return bankQ(r,GEO_CAP.concat(GEO_FACTS),rr=>{
+    const i=ri(rr,0,GEO_CAP.length-1);const[c,cap]=GEO_CAP[i];
+    const wrongs=shuffle(rr,GEO_CAP.filter((p,j)=>j!==i).map(p=>p[1])).slice(0,3);
+    return mkQ(`ما عاصمة «${c}» ؟`,cap,wrongs,rr)})}
+function genHistory(r,tier){
+  return bankQ(r,HIST,rr=>{const y=ri(rr,100,2020);const c=Math.floor((y-1)/100)+1;
+    const cAr=["الأول","الثاني","الثالث","الرابع","الخامس","السادس","السابع","الثامن","التاسع","العاشر","الحادي عشر","الثاني عشر","الثالث عشر","الرابع عشر","الخامس عشر","السادس عشر","السابع عشر","الثامن عشر","التاسع عشر","العشرون","الحادي والعشرون"][c-1]||String(c);
+    const wrongs=shuffle(rr,[c+1,c-1,c+2].filter(x=>x>=1).map(x=>String(x))).slice(0,3);
+    return mkQ(`في أي قرن ميلادي كان عام ${y}م ؟`,cAr,wrongs,rr)})}
+function genIslam(r,tier){
+  return bankQ(r,ISLAM,rr=>{const i=ri(rr,0,3);const order=["الفجر","الظهر","العصر","المغرب","العشاء"];
+    const k=pick(rr,["after","rakat"]);if(k==="after"){const c=order[i+1];
+      return mkQ(`أي صلاة تأتي بعد صلاة «${order[i]}» ؟`,c,shuffle(rr,order.filter(x=>x!==c&&x!==order[i])).slice(0,3),rr)}
+    const rakat={"الفجر":2,"الظهر":4,"العصر":4,"المغرب":3,"العشاء":4};const p=order[i];
+    return finalize(numQ(rr,`كم عدد ركعات صلاة «${p}» ؟`,rakat[p],2))})}
+function genFor(subject,r,tier){
+  switch(subject){case"math":return genMath(r,tier);case"arabic":return genArabic(r,tier);
+    case"english":return genEnglish(r,tier);case"science":return genScience(r,tier);
+    case"geo":return genGeo(r,tier);case"history":return genHistory(r,tier);case"islam":return genIslam(r,tier)}}
+function genQuestion(level,idx){
+  const subject=subjectFor(level,idx),tier=tierOf(level);
+  for(let tries=0;tries<50;tries++){
+    const r=mulberry32(level*7919+idx*104729+tries*31337);
+    let q;try{q=genFor(subject,r,tier)}catch(e){q=genMath(r,tier)}
+    if(!isUsed(q.q+"|"+q.opts.join(",")))return q}
+  const r=mulberry32(Date.now()%100000+level+idx);return genMath(r,tier)}
+function getLevelQuestions(level){const qs=[];for(let i=0;i<10;i++){const q=genQuestion(level,i);markUsed(q.q+"|"+q.opts.join(","));qs.push(q)}save();return qs}
+function getDuelQuestions(seed){const qs=[];const usedBackup=usedSet;usedSet=new Set();
+  for(let i=0;i<10;i++){const r=mulberry32(seed+i*99991);let q;try{q=genFor(SUBJ_LIST[i%SUBJ_LIST.length],r,3)}catch(e){q=genMath(r,3)}
+    if(!qs.some(x=>x.q===q.q))qs.push(q)}usedSet=usedBackup;return qs}
+/* ============ UI logic ============ */
+function show(id){$$(".screen").forEach(s=>s.classList.remove("active"));$("#"+id).classList.add("active");window.scrollTo(0,0)}
+function applyI18n(){document.body.dir=S.lang==="ar"?"rtl":"ltr";document.documentElement.lang=S.lang;
+  $$("[data-i]").forEach(e=>e.textContent=t(e.dataset.i));
+  $$("[data-i-ph]").forEach(e=>e.placeholder=t(e.dataset.iPh));
+  const sel=$("#selLang");sel.innerHTML=LANGS.map(l=>`<option value="${l[0]}" ${l[0]===S.lang?"selected":""}>${l[1]}</option>`).join("")}
+function updCoins(){$("#coinsHome").textContent=S.coins;$("#coinsMap").textContent=S.coins;$("#coinsStore").textContent=S.coins}
+function enterHome(){show("scr-home");updCoins();
+  $("#welcomeLine").textContent=`👋 ${t("welcomeBack")}، ${S.name}!`;
+  const fl=$("#friendsList");
+  if(!S.friends.length){fl.innerHTML=`<div class="small" style="padding:8px 2px">${t("noFriends")}</div>`}
+  else{fl.innerHTML=S.friends.map((f,i)=>`<div class="friend-item glass" data-f="${i}">
+    <div class="avatar" style="background:linear-gradient(135deg,hsl(${(i*67)%360} 70% 45%),hsl(${(i*67+60)%360} 70% 35%))">${esc(f[0].toUpperCase())}</div>
+    <b style="flex:1">${esc(f)}</b><button class="buyb" data-inv="${i}">✉️ ${t("inviteT")}</button></div>`).join("")}}
+/* ---- Map ---- */
+let mapZone=0;
+function openMap(){mapZone=Math.floor((S.level-1)/50);show("scr-map");renderMap();updCoins()}
+function zoneHue(z){return (z*47)%360}
+function renderMap(){
+  if(typeof S.level!=="number"||!(S.level>=1)||S.level>4501){S.level=1;save()}
+  const LVL=S.level;
+  const zn=$("#zoneNav");
+  zn.innerHTML=`<button class="zpill" id="zPrev">‹</button><div class="zpill cur">${t("zone")} ${mapZone+1} / 90</div><button class="zpill" id="zNext">›</button>`;
+  $("#zPrev").onclick=()=>{if(mapZone>0){mapZone--;renderMap()}};
+  $("#zNext").onclick=()=>{if(mapZone<89){mapZone++;renderMap()}};
+  const done=S.stars;
+  const first=mapZone*50+1,last=Math.min(4500,(mapZone+1)*50);
+  const ROWH=78,PAD=56;
+  let nodes="",pts=[];
+  for(let n=first;n<=last;n++){
+    const i=n-first;
+    const x=50+36*Math.sin(i*0.62);
+    const y=PAD+i*ROWH;
+    pts.push([x,y]);
+    const st=done[n]||0;
+    const isBoss=n%10===0;
+    const isCur=n===LVL;
+    const locked=n>LVL;
+    let cls="pnode"+(isBoss?" boss":"")+(st>0?" done":"")+(locked?" lock":"")+(isCur?" cur":"");
+    let inner=locked?"🔒":(isCur?"▶":n);
+    if(st>0)inner+=`<span class="pst">${"★".repeat(st)}</span>`;
+    if(isCur)inner+=`<span class="plbl">${t("level")} ${n}</span>`;
+    nodes+=`<button class="${cls}" data-lvl="${n}" ${locked?"disabled":""} style="left:${x}%;top:${y}px">${inner}</button>`}
+  const H=PAD+(last-first)*ROWH+PAD;
+  let d="";
+  pts.forEach((p,i)=>{d+=(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)+" "});
+  const svg=`<svg class="pathline" viewBox="0 0 100 ${H}" preserveAspectRatio="none">
+    <path d="${d}" fill="none" stroke="var(--ac2)" stroke-opacity=".55" stroke-width="5" stroke-dasharray="1 7" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>`;
+  $("#zoneBox").innerHTML=`<div class="zone-head"><div class="planet" style="filter:hue-rotate(${zoneHue(mapZone)}deg)"></div>
+    <div style="flex:1"><b style="font-size:18px">${t("zone")} ${mapZone+1}</b><div class="small">${t("level")} ${first} - ${last}</div></div>
+    <button class="btn btn-gold startbar" id="btnGoCur" style="width:auto;padding:12px 20px">▶ ${t("level")} ${LVL}</button></div>
+    <div class="pathwrap" style="height:${H}px">${svg}${nodes}</div>`;
+  $("#mapInfo").textContent=`⭐ ${Object.keys(S.stars).length} / 4500 ${t("level")}`;
+  $("#btnGoCur").onclick=()=>startLevel(LVL);
+  $$("#zoneBox .pnode").forEach(b=>b.onclick=()=>{const n=+b.dataset.lvl;if(n<=LVL)startLevel(n);else toast(t("needPrev"))})}
+/* ---- Quiz ---- */
+let QZ=null,timerInt=null;
+function startLevel(n){const qs=getLevelQuestions(n);
+  QZ={qs,i:0,correct:0,streak:0,mode:"solo",level:n,removed:null};
+  show("scr-quiz");$("#oppChip").style.display="none";$("#oppProgress").style.display="none";$("#pwRow").style.display="flex";
+  $("#pwFiftyN").textContent=S.items.fifty||0;$("#pwSkipN").textContent=S.items.skip||0;
+  renderQ()}
+function startCustom(){const qs=S.custom.map(c=>{const r=mulberry32(Date.now()%99999+c.q.length);
+    const opts=shuffle(r,c.o.map((o,i)=>({txt:o,ok:i===c.a})));
+    return{q:c.q,opts:opts.map(o=>o.txt),a:opts.findIndex(o=>o.ok)}}).slice(0,20);
+  if(!qs.length){toast(t("noCustom"));return}
+  QZ={qs,i:0,correct:0,streak:0,mode:"custom",level:0};show("scr-quiz");
+  $("#oppChip").style.display="none";$("#oppProgress").style.display="none";$("#pwRow").style.display="none";renderQ()}
+function startDuel(qs){QZ={qs,i:0,correct:0,streak:0,mode:"duel",level:0};show("scr-quiz");
+  $("#oppChip").style.display="flex";$("#oppProgress").style.display="block";$("#pwRow").style.display="none";
+  $("#oppName").textContent=DUEL.peerName||"?";$("#oppScoreT").textContent="0";renderQ()}
+function stopTimer(){if(timerInt){clearInterval(timerInt);timerInt=null}}
+function renderQ(){
+  stopTimer();const q=QZ.qs[QZ.i];QZ.removed=null;
+  $("#qDots").innerHTML=QZ.qs.map((_,i)=>`<div class="dot ${i<QZ.i?"on":i===QZ.i?"cur":""}"></div>`).join("");
+  $("#qText").textContent=q.q;
+  const box=$("#optsBox");box.innerHTML=q.opts.map((o,i)=>`<button class="opt" data-i="${i}">${esc(o)}</button>`).join("");
+  $$("#optsBox .opt").forEach(b=>b.onclick=()=>answer(+b.dataset.i));
+  $("#pwFifty").disabled=!(S.items.fifty>0);$("#pwSkip").disabled=!(S.items.skip>0);
+  const tb=$("#timerBar");tb.classList.remove("low");
+  if(S.timer&&QZ.mode!=="custom"){let left=25;tb.firstElementChild.style.width="100%";
+    timerInt=setInterval(()=>{left-=0.1;tb.firstElementChild.style.width=Math.max(0,left/25*100)+"%";
+      if(left<=5)tb.classList.add("low");if(left<=0){stopTimer();answer(-1)}},100)}}
+function answer(i){
+  stopTimer();const q=QZ.qs[QZ.i];$$("#optsBox .opt").forEach(b=>b.disabled=true);
+  const ok=i===q.a;
+  if(ok){if(i>=0)$$("#optsBox .opt")[i].classList.add("ok");QZ.correct++;QZ.streak++;click("ok");
+    fxStars();if(QZ.streak>S.best&&QZ.mode==="solo"){S.best=QZ.streak;save()}
+    if(QZ.streak%5===0){setTimeout(()=>showMascot(QZ.streak),350)}
+    if(QZ.mode==="duel")dcSend({t:"prog",i:QZ.i,ok:1})}
+  else{if(i>=0)$$("#optsBox .opt")[i].classList.add("bad");$$("#optsBox .opt")[q.a].classList.add("ok");
+    QZ.streak=0;click("bad");
+    if(QZ.mode==="duel")dcSend({t:"prog",i:QZ.i,ok:0})}
+  $("#streakChip").style.display=QZ.streak>0?"block":"none";$("#streakNum").textContent=QZ.streak;
+  setTimeout(()=>{QZ.i++;if(QZ.i<QZ.qs.length)renderQ();else finishQuiz()},ok?850:1500)}
+function fxStars(){for(let k=0;k<8;k++){const s=document.createElement("span");s.className="fx";
+  s.textContent=pick(Math.random,["⭐","✨","🌟"]);s.style.left=(30+Math.random()*40)+"%";s.style.top=(40+Math.random()*25)+"%";
+  document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}}
+$("#pwFifty").onclick=()=>{if(!(S.items.fifty>0))return;const q=QZ.qs[QZ.i];
+  const wrongIdx=q.opts.map((o,i)=>i).filter(i=>i!==q.a);shuffle(Math.random,wrongIdx).slice(0,2).forEach(i=>{$$("#optsBox .opt")[i].disabled=true;$$("#optsBox .opt")[i].style.opacity=.25});
+  S.items.fifty--;save();$("#pwFiftyN").textContent=S.items.fifty;$("#pwFifty").disabled=true};
+$("#pwSkip").onclick=()=>{if(!(S.items.skip>0))return;S.items.skip--;save();$("#pwSkipN").textContent=S.items.skip;
+  QZ.correct++;QZ.streak++;if(QZ.streak%5===0)showMascot(QZ.streak);
+  QZ.i++;if(QZ.i<QZ.qs.length)renderQ();else finishQuiz()};
+$("#btnQuitQuiz").onclick=()=>{if(confirm(t("quitQ"))){stopTimer();if(QZ&&QZ.mode==="duel")dcSend({t:"end",score:-1});show("scr-home");enterHome()}};
+/* ---- Mascot ---- */
+function showMascot(n){$("#mascotSay").textContent=t("streakMsg").replace("{n}",n);
+  $("#mascotPop").classList.add("show");speak(t("streakMsg").replace("{n}",n),S.lang);click("win")}
+$("#btnMascotOk").onclick=()=>$("#mascotPop").classList.remove("show");
+/* ---- Result ---- */
+function finishQuiz(){
+  stopTimer();const c=QZ.correct,tot=QZ.qs.length;
+  let stars=c===tot?3:c>=8?2:c>=6?1:0;
+  const coins=c*5+stars*10;S.coins+=coins;
+  let title,oppScore=null;
+  if(QZ.mode==="duel"){DUEL.myScore=c;dcSend({t:"end",score:c});DUEL.myDone=true;
+    if(DUEL.oppDone){oppScore=DUEL.oppScore;
+      title=c>oppScore?t("duelWin"):c<oppScore?t("duelLose"):t("duelTie");
+      if(DUEL.oppScore<0)oppScore=null}
+    else title=t("waiting")}
+  else{if(QZ.mode==="solo"&&stars>0){if(!S.stars[QZ.level]||S.stars[QZ.level]<stars)S.stars[QZ.level]=stars;
+      if(QZ.level===S.level)S.level=Math.min(4501,S.level+1)}
+    title=c===tot?t("perfect"):stars>0?t("lvlDone"):t("youLose")}
+  save();show("scr-result");
+  $("#resStars").textContent="⭐".repeat(stars)+"☆".repeat(3-stars);
+  $("#resTitle").textContent=title;
+  $("#resYou").textContent=`${c} / ${tot}`;
+  $("#resCoins").textContent=`+${coins} 🪙`;
+  $("#resBest").textContent=S.best;
+  $("#resBestLine").style.display=QZ.mode==="solo"?"flex":"none";
+  if(oppScore!==null&&QZ.mode==="duel"&&DUEL.oppDone){$("#resOppLine").style.display="flex";
+    $("#resOppName").textContent=DUEL.peerName||t("oppScore");$("#resOpp").textContent=DUEL.oppScore+" / 10"}
+  else $("#resOppLine").style.display="none";
+  $("#btnResNext").style.display=(QZ.mode==="solo"&&stars>0)?"flex":"none";
+  click(stars>0?"win":"bad");
+  if(stars>=2)confetti(stars===3?90:45);
+  if(QZ.mode==="duel"&&DUEL.oppName&&!S.friends.includes(DUEL.oppName)){S.friends.push(DUEL.oppName);save()}}
+$("#btnResNext").onclick=()=>startLevel(QZ.level+1);
+$("#btnResReplay").onclick=()=>{if(QZ.mode==="solo")startLevel(QZ.level);else if(QZ.mode==="custom")startCustom();else if(DUEL.isHost)hostStart()};
+$("#btnResHome").onclick=()=>{show("scr-home");enterHome()};
+
+/* ---- confetti ---- */
+function confetti(n){const cols=["#ffc94d","#7c5cff","#29e0d2","#ff5e8a","#3ddc84","#ff9d4d"];
+  for(let i=0;i<(n||60);i++){const d=document.createElement("div");d.className="confetti";
+    d.style.cssText=`left:${Math.random()*100}vw;background:${cols[i%cols.length]};border-radius:${Math.random()<.5?"50%":"2px"};
+      animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*.6}s;transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(d);setTimeout(()=>d.remove(),4800)}}
+/* ---- Store ---- */
+const STORE=[
+ {id:"th-gold",ic:"🏆",name:"thGold",desc:"thGoldD",price:300,type:"theme",val:"gold"},
+ {id:"th-space",ic:"🌌",name:"thSpace",desc:"thSpaceD",price:300,type:"theme",val:"space"},
+ {id:"th-neon",ic:"🌆",name:"thNeon",desc:"thNeonD",price:300,type:"theme",val:"neon"},
+ {id:"snd-piano",ic:"🎹",name:"sndPiano",desc:"sndPianoD",price:150,type:"snd",val:"piano"},
+ {id:"snd-drops",ic:"💧",name:"sndDrops",desc:"sndDropsD",price:150,type:"snd",val:"drops"},
+ {id:"snd-scifi",ic:"🚀",name:"sndScifi",desc:"sndScifiD",price:150,type:"snd",val:"scifi"},
+ {id:"pw-fifty",ic:"✂️",name:"pwFifty",desc:"pwFiftyD",price:80,type:"item",val:"fifty"},
+ {id:"pw-skip",ic:"⏭️",name:"pwSkip",desc:"pwSkipD",price:120,type:"item",val:"skip"}];
+function openStore(){show("scr-store");updCoins();renderStore()}
+function renderStore(){$("#storeList").innerHTML=STORE.map(it=>{
+  const owned=(it.type==="theme"&&S.owned[it.id])||(it.type==="snd"&&S.owned[it.id])||it.type==="item";
+  const equipped=(it.type==="theme"&&S.theme===it.val)||(it.type==="snd"&&(S.owned.snd||"default")===it.val);
+  let btn;
+  if(it.type==="item")btn=`<button class="buyb" data-buy="${it.id}">${t("buyB")} ${it.price}🪙</button>`;
+  else if(equipped)btn=`<button class="buyb owned">${t("equipB")}</button>`;
+  else if(S.owned[it.id])btn=`<button class="buyb" data-eq="${it.id}">${t("equipB")}</button>`;
+  else btn=`<button class="buyb" data-buy="${it.id}">${t("buyB")} ${it.price}🪙</button>`;
+  return `<div class="store-item glass"><div class="store-ic" style="background:linear-gradient(135deg,var(--ac),var(--ac2))">${it.ic}</div>
+    <div class="store-info"><b>${t(it.name)}</b><span>${t(it.desc)}</span></div>${btn}</div>`}).join("");
+  $$("[data-buy]").forEach(b=>b.onclick=()=>{const it=STORE.find(x=>x.id===b.dataset.buy);
+    if(S.coins<it.price){toast(t("notEnough"));click("bad");return}
+    S.coins-=it.price;
+    if(it.type==="item")S.items[it.val]=(S.items[it.val]||0)+1;else S.owned[it.id]=1;
+    if(it.type==="snd")S.owned.snd=it.val;
+    save();updCoins();renderStore();click("coin");toast("✅ "+t("saved"))});
+  $$("[data-eq]").forEach(b=>b.onclick=()=>{const it=STORE.find(x=>x.id===b.dataset.eq);
+    if(it.type==="theme")S.theme=it.val;if(it.type==="snd")S.owned.snd=it.val;
+    document.body.dataset.theme=S.theme;save();renderStore();click("ok")})}
+/* ---- Settings ---- */
+const FREE_THEMES=["cosmic","sunset","ocean","forest"];
+function openSettings(){show("scr-settings");renderSettings()}
+function renderSettings(){applyI18n();updCoins();
+  $("#swSound").classList.toggle("on",S.sound);$("#swTimer").classList.toggle("on",S.timer);$("#swVoice").classList.toggle("on",S.voice);$("#swRemind").classList.toggle("on",S.remind!==false);
+  $("#themeDots").innerHTML=FREE_THEMES.concat(["gold","space","neon"]).map(th=>{
+    const locked=!FREE_THEMES.includes(th)&&!S.owned["th-"+th];
+    return `<button class="tdot ${S.theme===th?"cur":""} ${locked?"lock":""}" data-th="${th}" ${locked?"disabled":""}
+      style="background:linear-gradient(135deg,${{cosmic:"#7c5cff",sunset:"#ff7a4d",ocean:"#2196f3",forest:"#3ddc84",gold:"#ffc94d",space:"#8a7cff",neon:"#ff2ee6"}[th]},var(--ac2))">${locked?"🔒":S.theme===th?"✓":""}</button>`}).join("");
+  $("#shapeDots").innerHTML=["crystal","neon","wood","metal"].map(sh=>`<button class="sdot ${S.shape===sh?"cur":""}" data-sh="${sh}">${t("sh"+sh.charAt(0).toUpperCase()+sh.slice(1))}</button>`).join("");
+  $$("[data-th]").forEach(b=>b.onclick=()=>{S.theme=b.dataset.th;document.body.dataset.theme=S.theme;save();renderSettings();click("ok")});
+  $$("[data-sh]").forEach(b=>b.onclick=()=>{S.shape=b.dataset.sh;document.body.dataset.shape=S.shape;save();renderSettings();click("ok")})}
+$("#selLang").onchange=e=>{S.lang=e.target.value;save();applyI18n();renderSettings()};
+$("#swSound").onclick=()=>{S.sound=!S.sound;save();renderSettings()};
+$("#swTimer").onclick=()=>{S.timer=!S.timer;save();renderSettings()};
+$("#swVoice").onclick=()=>{S.voice=!S.voice;save();renderSettings()};
+$("#swRemind").onclick=()=>{S.remind=!S.remind;if(S.remind){askNotify();S.lastRemind=Date.now();save();toast("🔔 "+t("remindT"))}save();renderSettings()};
+$("#btnReset").onclick=()=>{if(confirm(t("resetQ"))){localStorage.removeItem("najoom_v1");location.reload()}};
+/* ============ Friend duel (WebRTC) ============ */
+const DUEL={pc:null,dc:null,isHost:false,myScore:0,oppScore:0,myDone:false,oppDone:false,peerName:"",facing:"environment"};
+const enc=s=>btoa(unescape(encodeURIComponent(s))),dec=s=>decodeURIComponent(escape(atob(s.trim())));
+function dcSend(o){if(DUEL.dc&&DUEL.dc.readyState==="open"){try{DUEL.dc.send(JSON.stringify(o))}catch(e){}}}
+function waitIce(pc){return new Promise(res=>{if(pc.iceGatheringState==="complete")return res();
+  const to=setTimeout(res,3500);pc.addEventListener("icegatheringstatechange",()=>{if(pc.iceGatheringState==="complete"){clearTimeout(to);res()}})})}
+const RTC_CFG={iceServers:[{urls:"stun:stun.l.google.com:19302"}]};
+function newPC(){const pc=new RTCPeerConnection(RTC_CFG);DUEL.pc=pc;return pc}
+function bindDC(dc){DUEL.dc=dc;
+  dc.onopen=()=>{$("#connStatus").innerHTML="🟢 "+t("connectedT");
+    if(DUEL.isHost)$("#btnStartDuel").disabled=false;else $("#btnStartDuel").textContent=t("waiting");
+    dcSend({t:"hi",name:S.name});click("coin")};
+  dc.onmessage=e=>{let m;try{m=JSON.parse(e.data)}catch(x){return}
+    if(m.t==="hi"){DUEL.peerName=m.name;$("#oppName").textContent=m.name;
+      if(!S.friends.includes(m.name)){S.friends.push(m.name);save();if($("#scr-home").classList.contains("active"))enterHome()}}
+    if(m.t==="prog"){$("#oppScoreT").textContent=DUEL.oppScore=m.i+1;$("#oppBar").style.width=((m.i+1)*10)+"%"}
+    if(m.t==="end"){DUEL.oppDone=true;DUEL.oppScore=m.score;
+      if(DUEL.myDone)updateDuelResult()}
+    if(m.t==="start"){startDuel(getDuelQuestions(m.seed))}}}
+async function createHostRoom(){try{DUEL.isHost=true;
+  const pc=newPC();const dc=pc.createDataChannel("game");bindDC(dc);
+  const offer=await pc.createOffer();await pc.setLocalDescription(offer);await waitIce(pc);
+  $("#hostCode").textContent=enc(JSON.stringify(pc.localDescription));
+  $("#connStatus").innerHTML="🔵 "+t("waiting")}catch(e){$("#hostCode").textContent="Error: "+e.message}}
+async function joinAsGuest(code){try{DUEL.isHost=false;
+  const pc=newPC();pc.ondatachannel=e=>bindDC(e.channel);
+  await pc.setRemoteDescription(JSON.parse(dec(code)));
+  const ans=await pc.createAnswer();await pc.setLocalDescription(ans);await waitIce(pc);
+  $("#joinReply").style.display="block";$("#replyCode").textContent=enc(JSON.stringify(pc.localDescription))}catch(e){toast("Error: "+e.message)}}
+async function acceptReply(code){try{await DUEL.pc.setRemoteDescription(JSON.parse(dec(code)));toast(t("connectedT"))}catch(e){toast("Error: "+e.message)}}
+function updateDuelResult(){if(!$("#scr-result").classList.contains("active"))return;
+  if(DUEL.oppScore<0){$("#resOppLine").style.display="flex";$("#resOppName").textContent=DUEL.peerName;$("#resOpp").textContent="—";return}
+  $("#resOppLine").style.display="flex";$("#resOppName").textContent=DUEL.peerName||t("oppScore");$("#resOpp").textContent=DUEL.oppScore+" / 10";
+  const c=DUEL.myScore,o=DUEL.oppScore;
+  $("#resTitle").textContent=c>o?t("duelWin"):c<o?t("duelLose"):t("duelTie")}
+function hostStart(){const seed=(Date.now()%1000000000)|0;dcSend({t:"start",seed});startDuel(getDuelQuestions(seed))}
+$("#btnStartDuel").onclick=()=>{if(DUEL.isHost&&DUEL.dc&&DUEL.dc.readyState==="open")hostStart()};
+function openFriend(){show("scr-friend");$("#btnStartDuel").disabled=true;
+  if(!DUEL.pc)createHostRoom()}
+$("#btnJoin").onclick=()=>{const v=$("#pasteCode").value.trim();if(!v)return;click("mech");
+  if(DUEL.pc&&DUEL.isHost)acceptReply(v);else if(!DUEL.pc)joinAsGuest(v)};
+$("#btnCopyCode").onclick=()=>copyText($("#hostCode").textContent);
+$("#btnCopyReply").onclick=()=>copyText($("#replyCode").textContent);
+function copyText(txt){if(!txt)return;
+  if(navigator.clipboard)navigator.clipboard.writeText(txt).then(()=>toast("📋 "+t("copied")));
+  else{const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast("📋 "+t("copied"))}}
+/* ---- Invite modal ---- */
+function showModal(html){let m=$("#dynModal");if(!m){m=document.createElement("div");m.id="dynModal";m.className="modal-back";document.body.appendChild(m)}
+  m.innerHTML=`<div class="glass modal">${html}</div>`;m.classList.add("show");return m}
+async function inviteFriend(name){if(!DUEL.pc||!$("#hostCode").textContent)await createHostRoom();const m=showModal(`<h3>✉️ ${esc(name)}</h3>
+  <p style="font-size:17px;font-weight:800;line-height:1.8;margin-bottom:14px">${t("inviteMsg")}</p>
+  <p class="small" style="margin-bottom:8px">${t("shareCode")}</p>
+  <div class="codebox" id="invCode" style="max-height:80px">${$("#hostCode").textContent||""}</div>
+  <div style="display:flex;gap:10px;margin-top:12px">
+    <button class="btn btn-primary" id="invCopy">${t("copyB")}</button>
+    <button class="btn" id="invClose">${t("closeB")}</button></div>`);
+  $("#invCopy",m).onclick=()=>copyText($("#invCode").textContent);
+  $("#invClose",m).onclick=()=>m.classList.remove("show")}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-inv]");if(b)inviteFriend(S.friends[+b.dataset.inv])});
+/* ============ Camera ============ */
+let camStream=null;
+async function openCamera(){show("scr-camera");renderCustom();
+  try{stopCam();camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:DUEL.facing}});$("#camVideo").srcObject=camStream}
+  catch(e){$("#videoWrap").innerHTML=`<div class="center small" style="padding:40px 16px">📷⚠️<br>Camera unavailable</div>`}}
+function stopCam(){if(camStream){camStream.getTracks().forEach(tr=>tr.stop());camStream=null}}
+$("#btnCamBack").onclick=()=>{stopCam();show("scr-home");enterHome()};
+$("#btnFlip").onclick=()=>{DUEL.facing=DUEL.facing==="environment"?"user":"environment";openCamera()};
+$("#btnShot").onclick=()=>{const v=$("#camVideo");if(!v||!v.videoWidth){toast("📷 ⚠️");return}
+  const c=document.createElement("canvas");const w=520,h=Math.round(v.videoHeight/v.videoWidth*520);
+  c.width=w;c.height=h;c.getContext("2d").drawImage(v,0,0,w,h);
+  const data=c.toDataURL("image/jpeg",0.55);
+  const img=$("#camShot");img.src=data;img.style.display="block";v.style.display="none";
+  $("#builderBox").style.display="block";click("cam")};
+$("#btnSaveCQ").onclick=()=>{const q=$("#cqText").value.trim(),o=[$("#cqO1").value.trim(),$("#cqO2").value.trim(),$("#cqO3").value.trim(),$("#cqO4").value.trim()].filter(x=>x);
+  if(!q||o.length<2){toast("⚠️");return}
+  const a=Math.min(3,+$("#cqCorrect").value);
+  S.custom.push({q,o,a});save();toast("✅ "+t("saved"));click("coin");
+  ["cqText","cqO1","cqO2","cqO3","cqO4"].forEach(id=>$("#"+id).value="");renderCustom()};
+function renderCustom(){const l=$("#customList");
+  if(!S.custom.length){l.innerHTML=`<div class="small" style="padding:8px 2px">${t("noCustom")}</div>`;return}
+  l.innerHTML=S.custom.map((c,i)=>`<div class="friend-item glass"><b style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.q)}</b>
+    <button class="buyb owned" data-del="${i}">🗑️</button></div>`).join("");
+  $$("[data-del]").forEach(b=>b.onclick=()=>{S.custom.splice(+b.dataset.del,1);save();renderCustom()})}
+$("#btnPlayCustom").onclick=()=>startCustom();
+/* ---- Study reminder (every 4 hours) ---- */
+function askNotify(){try{if("Notification" in window&&Notification.permission==="default")Notification.requestPermission()}catch(e){}}
+function fireRemind(){S.lastRemind=Date.now();save();const msg=t("remindMsg");
+  let shown=false;
+  try{if("Notification" in window&&Notification.permission==="granted"){
+    new Notification((T[S.lang]&&T[S.lang].appName)||"Knowledge Stars",{body:msg});shown=true}}catch(e){}
+  if(!shown)toast(msg);
+  click("win")}
+function remindDue(){return S.lastRemind&&Date.now()-S.lastRemind>=4*60*60*1000}
+let remindInt=setInterval(()=>{if(S.remind&&remindDue())fireRemind()},60*1000);
+setTimeout(()=>{if(S.remind&&remindDue())fireRemind()},20000);
+/* ============ Init & wiring ============ */
+$("#btnAgree").onclick=()=>{S.agreed=true;save();show("scr-name");click("ok")};
+$("#btnDisagree").onclick=()=>{click("mech");try{window.close()}catch(e){}
+  setTimeout(()=>{document.body.innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:100dvh;font-size:20px;font-weight:800;text-align:center;padding:20px">🔒<br><br>يمكنك الآن إغلاق هذه الصفحة.<br>You can close this page now.</div>`},300)};
+$("#btnStart").onclick=()=>{const v=$("#nameInput").value.trim();if(!v){$("#nameInput").style.borderColor="var(--rose)";return}
+  S.name=v.slice(0,20);save();click("win");askNotify();enterHome();toast(`🌟 ${t("welcomeBack")}، ${S.name}!`)};
+$("#btnAlone").onclick=()=>{if(typeof S.level!=="number"||!(S.level>=1))S.level=1;startLevel(S.level)};
+$("#btnMap").onclick=openMap;
+$("#btnFriend").onclick=openFriend;
+$("#btnSettings").onclick=openSettings;
+$("#btnStore").onclick=openStore;
+$("#btnCamera").onclick=openCamera;
+$("#btnMapBack").onclick=()=>{show("scr-home");enterHome()};
+$("#btnSetBack").onclick=()=>{show("scr-home");enterHome()};
+$("#btnStoreBack").onclick=()=>{show("scr-home");enterHome()};
+$("#btnFriendBack").onclick=()=>{show("scr-home");enterHome()};
+load();usedInit();
+document.body.dataset.theme=S.theme;document.body.dataset.shape=S.shape;
+applyI18n();
+if(!S.agreed){/* privacy stays */}
+else if(!S.name)show("scr-name");
+else enterHome();
+</script>
+</body>
+</html>
